@@ -1,0 +1,22 @@
+{
+  "name": "tumo_coach",
+  "version": "1.0.0",
+  "description": "An administrative panel for Tumo coaches",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MikAghumyan/tumo_coach.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MikAghumyan/tumo_coach/issues"
+  },
+  "homepage": "https://github.com/MikAghumyan/tumo_coach#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
