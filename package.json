@@ -4,7 +4,8 @@
   "description": "An administrative panel for Tumo coaches",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./backend/index.js",
+    "server": "nodemon ./backend/index.js"
   },
   "repository": {
     "type": "git",
