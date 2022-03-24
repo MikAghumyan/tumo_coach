@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
@@ -15,10 +16,7 @@ mongoose.connect(MONGO_URI, {
   useUnifiedTopology: true,
 });
 
-app.get("/", (req, res) => {
-  res.send("hello world");
-});
-
+app.use(cors());
 app.listen(PORT, (err) => {
   if (err) console.log(err);
   else console.log(`App is listening on port ${PORT}`);
