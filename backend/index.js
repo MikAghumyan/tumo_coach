@@ -19,7 +19,8 @@ mongoose.connect(MONGO_URI, {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/api", require("./routers"));
+app.use("/api/workshops", require("./routes/workshopRoutes"));
+app.use("/api/students", require("./routes/studentRoutes"));
 
 app.use(errorHandler);
 
