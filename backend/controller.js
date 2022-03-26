@@ -1,8 +1,9 @@
 const Student = require("./ models/Student");
 const Workshop = require("./ models/Workshop.js");
+const asyncHandler = require("express-async-handler");
 
 module.exports = {
-  createWorkshop: async (req, res) => {
+  createWorkshop: asyncHandler(async (req, res) => {
     try {
       console.log(req.body);
       const { name, description, level } = req.body;
@@ -17,8 +18,8 @@ module.exports = {
       res.status(401);
       throw new Error("please add all the information");
     }
-  },
-  createStudent: async (req, res) => {
+  }),
+  createStudent: asyncHandler(async (req, res) => {
     try {
       const { name, surname } = req.body;
       const student = await Student.create({ name, surname, students: [] });
@@ -27,8 +28,8 @@ module.exports = {
       res.status(401);
       throw new Error(error);
     }
-  },
-  findWorkshops: async (req, res) => {
+  }),
+  findWorkshops: asyncHandler(async (req, res) => {
     try {
       const workshops = await Workshop.find();
       res.status(200).json({ workshops });
@@ -36,8 +37,8 @@ module.exports = {
       res.status(401);
       throw new Error(error);
     }
-  },
-  findStudents: async (req, res) => {
+  }),
+  findStudents: asyncHandler(async (req, res) => {
     try {
       const students = await Student.find();
       res.status(200).json({ students });
@@ -45,8 +46,8 @@ module.exports = {
       res.status(401);
       throw new Error(error);
     }
-  },
-  studentsByWorkshop: async (req, res) => {
+  }),
+  studentsByWorkshop: asyncHandler(async (req, res) => {
     try {
       const { id } = req.query;
       console.log(req.query);
@@ -58,8 +59,8 @@ module.exports = {
       res.status(401);
       throw new Error(error);
     }
-  },
-  workshopsByStudent: async (req, res) => {
+  }),
+  workshopsByStudent: asyncHandler(async (req, res) => {
     try {
       const { id } = req.query;
       console.log(req.query);
@@ -71,8 +72,8 @@ module.exports = {
       res.status(401);
       throw new Error(error);
     }
-  },
-  addStudent: async (req, res) => {
+  }),
+  addStudent: asyncHandler(async (req, res) => {
     try {
       console.log(req.body, req.params);
       const { studentId, workshopId } = req.body;
@@ -90,8 +91,8 @@ module.exports = {
       res.status(401);
       throw new Error(error);
     }
-  },
-  // removeStudent: async (req, res) => {
+  }),
+  // removeStudent: asyncHandler(async (req, res) => {
   //   console.log(req.body, req.params);
-  // },
+  // }),
 };
