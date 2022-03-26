@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const errorHandler = require("./middlewares/errorMiddleware");
 require("dotenv").config();
 
 const app = express();
@@ -19,6 +20,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/api", require("./routers"));
+
+app.use(errorHandler);
+
 app.listen(PORT, (err) => {
   if (err) console.log(err);
   else console.log(`App is listening on port ${PORT}`);
