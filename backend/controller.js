@@ -49,8 +49,8 @@ module.exports = {
   }),
   studentsByWorkshop: asyncHandler(async (req, res) => {
     try {
-      const { id } = req.query;
-      console.log(req.query);
+      const { id } = req.params;
+      console.log(req.params);
       const studentsByWorkshop = await Workshop.findById(id).populate(
         "students"
       );
@@ -62,8 +62,8 @@ module.exports = {
   }),
   workshopsByStudent: asyncHandler(async (req, res) => {
     try {
-      const { id } = req.query;
-      console.log(req.query);
+      const { id } = req.params;
+      console.log(req.params);
       const workshopsByStudent = await Student.findById(id).populate(
         "workshops"
       );
@@ -92,7 +92,20 @@ module.exports = {
       throw new Error(error);
     }
   }),
-  // removeStudent: asyncHandler(async (req, res) => {
-  //   console.log(req.body, req.params);
-  // }),
+  removeStudent: asyncHandler(async (req, res) => {
+    try {
+      const { studentId, workshopId } = req.body;
+      const student = await Student.findByIdAndUpdate(studentId, {
+        $pull: { workshops: workshopId },
+      }).exec();
+      const workshop = await Workshop.findByIdAndUpdate(workshopId, {
+        $pull: { students: studentId },
+      }).exec();
+      console.log(student, workshop);
+      res.status(200).json({ workshop, student });
+    } catch (error) {
+      res.status(401);
+      throw new Error(error);
+    }
+  }),
 };

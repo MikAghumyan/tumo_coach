@@ -1,5 +1,4 @@
 const express = require("express");
-const { route } = require("express/lib/application");
 const router = express.Router();
 const {
   createWorkshop,
@@ -12,13 +11,11 @@ const {
   removeStudent,
 } = require("./controller");
 
-router.get("/workshops", findWorkshops);
-router.get("/students", findStudents);
-router.get("/workshop/students", studentsByWorkshop);
-router.get("/student/workshops", workshopsByStudent);
-router.post("/workshop", createWorkshop);
-router.post("/student", createStudent);
+router.route("/workshops").get(findWorkshops).post(createWorkshop);
+router.get("/workshops/:id/students", studentsByWorkshop);
+router.route("/students").get(findStudents).post(createStudent);
+router.get("/students/:id/workshops", workshopsByStudent);
 router.put("/attach", addStudent);
-// router.put("/detach", removeStudent);
+router.put("/detach", removeStudent);
 
 module.exports = router;
