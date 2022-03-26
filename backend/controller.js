@@ -38,6 +38,26 @@ module.exports = {
       throw new Error(error);
     }
   }),
+  findWorkshopById: asyncHandler(async (req, res) => {
+    try {
+      const { id } = req.params;
+      const workshop = await Workshop.findById(id);
+      res.status(200).json({ workshop });
+    } catch (error) {
+      res.status(401);
+      throw new Error(error);
+    }
+  }),
+  findStudentById: asyncHandler(async (req, res) => {
+    try {
+      const { id } = req.params;
+      const workshop = await Workshop.findById(id);
+      res.status(200).json({ workshop });
+    } catch (error) {
+      res.status(401);
+      throw new Error(error);
+    }
+  }),
   findStudents: asyncHandler(async (req, res) => {
     try {
       const students = await Student.find();
