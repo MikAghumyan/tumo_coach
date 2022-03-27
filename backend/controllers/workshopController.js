@@ -1,8 +1,10 @@
+const asyncHandler = require("express-async-handler");
+
 const Student = require("../models/Student");
 const Workshop = require("../models/Workshop.js");
 
 module.exports = {
-  createWorkshop: async (req, res) => {
+  createWorkshop: asyncHandler(async (req, res) => {
     try {
       console.log(req.body);
       const { name, description, level } = req.body;
@@ -17,8 +19,8 @@ module.exports = {
       res.status(401);
       throw new Error("please add all the information");
     }
-  },
-  findWorkshops: async (req, res) => {
+  }),
+  findWorkshops: asyncHandler(async (req, res) => {
     try {
       const workshops = await Workshop.find();
       res.status(200).json({ workshops });
@@ -26,8 +28,8 @@ module.exports = {
       res.status(401);
       throw new Error(error);
     }
-  },
-  findWorkshopById: async (req, res) => {
+  }),
+  findWorkshopById: asyncHandler(async (req, res) => {
     try {
       const { id } = req.params;
       const workshop = await Workshop.findById(id);
@@ -36,8 +38,8 @@ module.exports = {
       res.status(401);
       throw new Error(error);
     }
-  },
-  studentsByWorkshop: async (req, res) => {
+  }),
+  studentsByWorkshop: asyncHandler(async (req, res) => {
     try {
       const { id } = req.params;
       console.log(req.params);
@@ -49,8 +51,8 @@ module.exports = {
       res.status(401);
       throw new Error(error);
     }
-  },
-  addStudent: async (req, res) => {
+  }),
+  addStudent: asyncHandler(async (req, res) => {
     try {
       console.log(req.body, req.params);
       const { studentId, workshopId } = req.body;
@@ -68,8 +70,8 @@ module.exports = {
       res.status(401);
       throw new Error(error);
     }
-  },
-  removeStudent: async (req, res) => {
+  }),
+  removeStudent: asyncHandler(async (req, res) => {
     try {
       const { studentId, workshopId } = req.body;
       const student = await Student.findByIdAndUpdate(studentId, {
@@ -84,5 +86,5 @@ module.exports = {
       res.status(401);
       throw new Error(error);
     }
-  },
+  }),
 };
