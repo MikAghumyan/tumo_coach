@@ -21,6 +21,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/workshops", require("./routes/workshopRoutes"));
 app.use("/api/students", require("./routes/studentRoutes"));
+app.use("/api/coaches", require("./routes/coachRoutes"));
 
 app.use(errorHandler);
 
