@@ -6,9 +6,10 @@ const {
   findStudentById,
   workshopsByStudent,
 } = require("../controllers/studentController");
+const authorize = require("../middlewares/authMiddleware");
 
-router.route("/").get(findStudents).post(createStudent);
-router.get("/:id", findStudentById);
-router.get("/:id/workshops", workshopsByStudent);
+router.route("/").get(authorize, findStudents).post(authorize, createStudent);
+router.get("/:id", authorize, findStudentById);
+router.get("/:id/workshops", authorize, workshopsByStudent);
 
 module.exports = router;

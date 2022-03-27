@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-
 const {
   createWorkshop,
   findWorkshops,
@@ -9,11 +8,12 @@ const {
   addStudent,
   removeStudent,
 } = require("../controllers/workshopController");
+const authorize = require("../middlewares/authMiddleware");
 
-router.route("/").get(findWorkshops).post(createWorkshop);
-router.get("/:id", findWorkshopById);
-router.get("/:id/students", studentsByWorkshop);
-router.put("/attach", addStudent);
-router.put("/detach", removeStudent);
+router.route("/").get(authorize, findWorkshops).post(authorize, createWorkshop);
+router.get("/:id", authorize, findWorkshopById);
+router.get("/:id/students", authorize, studentsByWorkshop);
+router.put("/attach", authorize, addStudent);
+router.put("/detach", authorize, removeStudent);
 
 module.exports = router;
