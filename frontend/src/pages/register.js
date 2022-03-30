@@ -1,5 +1,21 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
+const register = async (userData) => {
+  console.log("hi");
+  try {
+    const response = await axios.post(
+      "http://localhost:4000/api/coaches/",
+      userData
+    );
+    localStorage.setItem("coach", JSON.stringify(response.data));
+    console.log(localStorage.getItem("coach"));
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -18,7 +34,11 @@ const Register = () => {
       [e.target.name]: e.target.value,
     }));
   };
-  const onSubmit = () => {};
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (password === password2) register({ name, surname, email, password });
+    if (localStorage.getItem("coach"));
+  };
 
   return (
     <section className="hero is-primary is-fullheight">
@@ -29,7 +49,7 @@ const Register = () => {
               <h1 className="title is-1">Register</h1>
               <form className="box" onSubmit={onSubmit}>
                 <div className="field">
-                  <label lassName="label">Name</label>
+                  <label className="label">Name</label>
                   <div className="control">
                     <input
                       type="text"
@@ -106,7 +126,9 @@ const Register = () => {
                 <div className="field">
                   <button className="button is-success">Register</button>{" "}
                   <Link to="/login">
-                    <button class="button is-primary is-light">Login</button>
+                    <button className="button is-primary is-light">
+                      Login
+                    </button>
                   </Link>
                 </div>
               </form>

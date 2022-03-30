@@ -1,11 +1,15 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const errorHandler = require("./middlewares/errorMiddleware");
+const cors = require("cors");
 require("dotenv").config();
+
+const errorHandler = require("./middlewares/errorMiddleware");
 
 const app = express();
 
-const PORT = 3000 || process.env.port;
+app.use(cors());
+
+const PORT = 4000 || process.env.port;
 const MONGO_URI = process.env.MONGO_URI;
 if (!MONGO_URI) {
   throw new Error("Must provide");

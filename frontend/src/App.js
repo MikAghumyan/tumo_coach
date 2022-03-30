@@ -2,6 +2,7 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
+  Navigate,
   NavLink,
   Link,
 } from "react-router-dom";
@@ -18,8 +19,28 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<div className=""></div>} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+
+          <Route
+            path="/register"
+            element={
+              localStorage.getItem("coach") ? (
+                <Navigate to="/students" />
+              ) : (
+                <Register />
+              )
+            }
+          />
+
+          <Route
+            path="/login"
+            element={
+              localStorage.getItem("coach") ? (
+                <Navigate to="/students" />
+              ) : (
+                <Login />
+              )
+            }
+          />
           <Route path="/students" element={<Students />} />
           <Route path="/workshops" element={<Workshops />} />
         </Routes>

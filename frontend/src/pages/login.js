@@ -59,7 +59,9 @@ const Register = () => {
                 <div className="field">
                   <button className="button is-success">Login</button>{" "}
                   <Link to="/register">
-                    <button class="button is-primary is-light">Register</button>
+                    <button className="button is-primary is-light">
+                      Register
+                    </button>
                   </Link>
                 </div>
               </form>
