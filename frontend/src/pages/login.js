@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -14,9 +18,27 @@ const Register = () => {
       ...prevState,
       [e.target.name]: e.target.value,
     }));
+    console.log(password);
   };
 
-  const onSubmit = () => {};
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("/api/coaches/login", {
+        email,
+        password,
+      });
+      if (response.data.token) {
+        console.log(response.data);
+        navigate("/students");
+      } else {
+        console.log(response.data);
+        return response.data;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <section className="hero is-primary is-fullheight">

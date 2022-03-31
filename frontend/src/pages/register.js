@@ -1,23 +1,11 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const register = async (userData) => {
-  console.log("hi");
-  try {
-    const response = await axios.post(
-      "http://localhost:4000/api/coaches/",
-      userData
-    );
-    localStorage.setItem("coach", JSON.stringify(response.data));
-    console.log(localStorage.getItem("coach"));
-    return response.data;
-  } catch (err) {
-    console.log(err);
-  }
-};
+const Register = (props) => {
+  const navigate = useNavigate();
 
-const Register = () => {
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
@@ -34,10 +22,28 @@ const Register = () => {
       [e.target.name]: e.target.value,
     }));
   };
-  const onSubmit = (e) => {
+
+  const onSubmit = async (e) => {
     e.preventDefault();
-    if (password === password2) register({ name, surname, email, password });
-    if (localStorage.getItem("coach"));
+    if (password === password2) {
+      try {
+        const response = await axios.post("/api/coaches/", {
+          name,
+          surname,
+          email,
+          password,
+        });
+        if (response.data.token) {
+          console.log(response.data);
+          navigate("/students");
+        } else {
+          console.log(response.data);
+          return response.data;
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
   };
 
   return (
