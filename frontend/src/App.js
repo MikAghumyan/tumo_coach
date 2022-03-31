@@ -18,7 +18,16 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          <Route path="/" element={<div className=""></div>} />
+          <Route
+            path="/"
+            element={
+              localStorage.getItem("coach") ? (
+                <Navigate to="/students" />
+              ) : (
+                <Navigate to="/register" />
+              )
+            }
+          />
 
           <Route
             path="/register"
@@ -41,8 +50,26 @@ function App() {
               )
             }
           />
-          <Route path="/students" element={<Students />} />
-          <Route path="/workshops" element={<Workshops />} />
+          <Route
+            path="/students"
+            element={
+              localStorage.getItem("coach") ? (
+                <Students />
+              ) : (
+                <Navigate to="/register" />
+              )
+            }
+          />
+          <Route
+            path="/workshops"
+            element={
+              localStorage.getItem("coach") ? (
+                <Workshops />
+              ) : (
+                <Navigate to="/students" />
+              )
+            }
+          />
         </Routes>
       </Router>
     </div>

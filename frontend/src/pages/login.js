@@ -29,7 +29,7 @@ const Register = () => {
         password,
       });
       if (response.data.token) {
-        console.log(response.data);
+        localStorage.setItem("coach", JSON.stringify(response.data));
         navigate("/students");
       } else {
         console.log(response.data);
