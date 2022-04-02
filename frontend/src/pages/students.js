@@ -5,7 +5,7 @@ import Fuse from "fuse.js";
 import Navbar from "../components/navbar";
 import TableItem from "../components/tableItem";
 
-const Students = () => {
+const Students = (props) => {
   const [fetchedStudents, setFetchedStudents] = useState([]);
   const [students, setStudents] = useState([]);
   const [formData, setFormData] = useState({ name: "", surname: "" });
@@ -81,7 +81,12 @@ const Students = () => {
 
   return (
     <div>
-      <Navbar currentPage="students" redirectPage="workshops" search={search} />
+      <Navbar
+        currentPage="students"
+        redirectPage="workshops"
+        search={search}
+        verify={props.verify}
+      />
       <div className="pt-2 pr-5 pl-5">
         <div className="block">
           <form className="" onSubmit={onSubmit}>

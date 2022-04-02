@@ -12,8 +12,17 @@ import Register from "./pages/register";
 import Login from "./pages/login";
 import Students from "./pages/students";
 import Workshops from "./pages/workshops";
+import { useState } from "react";
 
 function App() {
+  const [verified, setVerified] = useState(
+    localStorage.getItem("coach") ? true : false
+  );
+
+  const verify = (status) => {
+    setVerified(status);
+  };
+
   return (
     <div className="App">
       <Router>
@@ -21,7 +30,7 @@ function App() {
           <Route
             path="/"
             element={
-              localStorage.getItem("coach") ? (
+              verified ? (
                 <Navigate to="/students" />
               ) : (
                 <Navigate to="/register" />
@@ -32,10 +41,10 @@ function App() {
           <Route
             path="/register"
             element={
-              localStorage.getItem("coach") ? (
+              verified ? (
                 <Navigate to="/students" />
               ) : (
-                <Register />
+                <Register verify={verify} />
               )
             }
           />
@@ -43,18 +52,14 @@ function App() {
           <Route
             path="/login"
             element={
-              localStorage.getItem("coach") ? (
-                <Navigate to="/students" />
-              ) : (
-                <Login />
-              )
+              verified ? <Navigate to="/students" /> : <Login verify={verify} />
             }
           />
           <Route
             path="/students"
             element={
-              localStorage.getItem("coach") ? (
-                <Students />
+              verified ? (
+                <Students verify={verify} />
               ) : (
                 <Navigate to="/register" />
               )
@@ -63,8 +68,8 @@ function App() {
           <Route
             path="/workshops"
             element={
-              localStorage.getItem("coach") ? (
-                <Workshops />
+              verified ? (
+                <Workshops verify={verify} />
               ) : (
                 <Navigate to="/students" />
               )

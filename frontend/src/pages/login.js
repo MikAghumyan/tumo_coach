@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const Register = () => {
+const Login = (props) => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -30,6 +30,7 @@ const Register = () => {
       });
       if (response.data.token) {
         localStorage.setItem("coach", JSON.stringify(response.data));
+        props.verify(true);
         navigate("/students");
       } else {
         console.log(response.data);
@@ -95,4 +96,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

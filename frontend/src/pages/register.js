@@ -35,6 +35,7 @@ const Register = (props) => {
         });
         if (response.data.token) {
           localStorage.setItem("coach", JSON.stringify(response.data));
+          props.verify(true);
           navigate("/students");
         } else {
           console.log(response.data);

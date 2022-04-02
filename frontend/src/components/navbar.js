@@ -6,10 +6,11 @@ const Navbar = (props) => {
   const [searchbox, setSearchbox] = useState("");
   const navigate = useNavigate();
 
-  const logout = (e) => {
+  const logout = async (e) => {
     e.preventDefault();
     localStorage.removeItem("coach");
-    navigate("/login");
+    props.verify(false);
+    navigate("/");
   };
 
   const onChange = (e) => {
