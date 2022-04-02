@@ -1,14 +1,31 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Fuse from "fuse.js";
 
 import Navbar from "../components/navbar";
 import TableItem from "../components/tableItem";
 
 const Students = () => {
+  const [fetchedStudents, setFetchedStudents] = useState([]);
   const [students, setStudents] = useState([]);
   const [formData, setFormData] = useState({ name: "", surname: "" });
+  const fuse = new Fuse(fetchedStudents, {
+    includeScore: true,
+    keys: ["name", "surname"],
+  });
 
   const { name, surname } = formData;
+
+  const search = (value) => {
+    if (value == "") {
+      setStudents(fetchedStudents);
+    } else {
+      console.log(value);
+      console.log(fetchedStudents);
+      const filtered = fuse.search(value);
+      setStudents(filtered.map((item) => item.item));
+    }
+  };
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -51,7 +68,7 @@ const Students = () => {
         },
       });
       console.log(res.data.students);
-
+      setFetchedStudents(res.data.students);
       setStudents(res.data.students);
     };
 
@@ -64,7 +81,7 @@ const Students = () => {
 
   return (
     <div>
-      <Navbar currentPage="students" redirectPage="workshops" />
+      <Navbar currentPage="students" redirectPage="workshops" search={search} />
       <div className="pt-2 pr-5 pl-5">
         <div className="block">
           <form className="" onSubmit={onSubmit}>

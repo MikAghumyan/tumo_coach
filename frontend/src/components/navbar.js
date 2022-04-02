@@ -1,13 +1,20 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = (props) => {
+  const [searchbox, setSearchbox] = useState("");
   const navigate = useNavigate();
 
   const logout = (e) => {
     e.preventDefault();
     localStorage.removeItem("coach");
     navigate("/login");
+  };
+
+  const onChange = (e) => {
+    setSearchbox(e.target.value);
+    props.search(e.target.value);
   };
 
   return (
@@ -48,11 +55,12 @@ const Navbar = (props) => {
               <input
                 className="input is-light"
                 type="text"
-                placeholder="Find a repository"
+                placeholder={`Find ${props.currentPage}`}
+                name="search"
+                id="search"
+                value={searchbox}
+                onChange={onChange}
               />
-            </div>
-            <div className="control">
-              <a className="button is-primary is-light">Search</a>
             </div>
           </div>
         </div>
