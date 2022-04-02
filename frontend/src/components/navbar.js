@@ -2,17 +2,17 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = (props) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const logout = (e) =>{
-        e.preventDefault()
-        localStorage.removeItem('coach')
-        navigate('/login')
-    }
+  const logout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("coach");
+    navigate("/login");
+  };
 
   return (
     <nav
-      className="navbar is-primary"
+      className="navbar is-primary block"
       role="navigation"
       aria-label="main navigation"
     >
@@ -60,7 +60,12 @@ const Navbar = (props) => {
         <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
-              <a onClick={logout} className="button is-primary is-inverted is-light">Logout</a>
+              <a
+                onClick={logout}
+                className="button is-primary is-inverted is-light"
+              >
+                Logout
+              </a>
             </div>
           </div>
         </div>
