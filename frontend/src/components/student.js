@@ -1,4 +1,4 @@
-const TableItem = (props) => {
+const Student = (props) => {
   return (
     <tr>
       <th>{props.student._id.substr(1, 10)}</th>
@@ -14,4 +14,4 @@ const TableItem = (props) => {
   );
 };
 
-export default TableItem;
+export default Student;

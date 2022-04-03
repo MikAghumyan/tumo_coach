@@ -3,7 +3,8 @@ import axios from "axios";
 import Fuse from "fuse.js";
 
 import Navbar from "../components/navbar";
-import TableItem from "../components/tableItem";
+import Student from "../components/student";
+import AddStudent from "../components/students/addStudent";
 
 const Students = (props) => {
   const [fetchedStudents, setFetchedStudents] = useState([]);
@@ -58,6 +59,23 @@ const Students = (props) => {
     } catch (error) {}
   };
 
+  const refetch = async () => {
+    try {
+      const res = await axios.get("/api/students", {
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("coach")).token
+          }`,
+        },
+      });
+      console.log(res.data.students);
+      setFetchedStudents(res.data.students);
+      setStudents(res.data.students);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get("/api/students", {
@@ -86,43 +104,9 @@ const Students = (props) => {
         redirectPage="workshops"
         search={search}
         verify={props.verify}
+        refetch={refetch}
       />
       <div className="pt-2 pr-5 pl-5">
-        <div className="block">
-          <form className="" onSubmit={onSubmit}>
-            <div className="field is-grouped ">
-              <div className=""></div>
-              <label className="label pr-3">Add Student:</label>
-              <div className="control">
-                <input
-                  className="input is-primary"
-                  type="text"
-                  placeholder="Name"
-                  name="name"
-                  id="name"
-                  value={name}
-                  onChange={onChange}
-                  required
-                />
-              </div>
-              <div className="control">
-                <input
-                  className="input is-primary"
-                  type="text"
-                  placeholder="Surname"
-                  name="surname"
-                  id="surname"
-                  value={surname}
-                  onChange={onChange}
-                  required
-                />
-              </div>
-              <div className="control">
-                <button className="button is-primary">Submit</button>
-              </div>
-            </div>
-          </form>
-        </div>
         <table className="table is-fullwidth is-hoverable">
           <thead>
             <tr>
@@ -135,7 +119,7 @@ const Students = (props) => {
           </thead>
           <tbody>
             {students.map((student, i) => {
-              return <TableItem key={i} student={student} />;
+              return <Student key={i} student={student} />;
             })}
           </tbody>
         </table>

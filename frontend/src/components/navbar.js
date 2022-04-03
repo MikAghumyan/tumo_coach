@@ -2,9 +2,16 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
+import AddStudent from "./students/addStudent";
+
 const Navbar = (props) => {
+  const [isBtnAcitve, setIsBtnActive] = useState(false);
   const [searchbox, setSearchbox] = useState("");
   const navigate = useNavigate();
+
+  const setBtnStatus = () => {
+    setIsBtnActive(!isBtnAcitve);
+  };
 
   const logout = async (e) => {
     e.preventDefault();
@@ -70,8 +77,23 @@ const Navbar = (props) => {
           <div className="navbar-item">
             <div className="buttons">
               <a
-                onClick={logout}
+                onClick={setBtnStatus}
                 className="button is-primary is-inverted is-light"
+              >
+                Add a {props.currentPage.slice(0, -1)}
+              </a>
+              {props.currentPage === "students" && (
+                <AddStudent
+                  isActive={isBtnAcitve}
+                  setActive={setBtnStatus}
+                  refetch={() => {
+                    props.refetch();
+                  }}
+                />
+              )}
+              <a
+                onClick={logout}
+                className="button is-primary is-danger is-light"
               >
                 Logout
               </a>
