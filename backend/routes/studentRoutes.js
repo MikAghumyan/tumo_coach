@@ -5,11 +5,15 @@ const {
   findStudents,
   findStudentById,
   workshopsByStudent,
+  deleteStudent,
 } = require("../controllers/studentController");
 const authorize = require("../middlewares/authMiddleware");
 
 router.route("/").get(authorize, findStudents).post(authorize, createStudent);
-router.get("/:id", authorize, findStudentById);
+router
+  .route("/:id")
+  .get(authorize, findStudentById)
+  .delete(authorize, deleteStudent);
 router.get("/:id/workshops", authorize, workshopsByStudent);
 
 module.exports = router;

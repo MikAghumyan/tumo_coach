@@ -14,11 +14,25 @@ module.exports = {
       throw new Error(error);
     }
   }),
+  deleteStudent: asyncHandler(async (req, res) => {
+    try {
+      const { id } = req.params;
+      const student = await Student.findByIdAndDelete(id);
+      const workshops = await Workshop.updateMany(
+        { students: id },
+        { $pull: { students: id } }
+      );
+      res.status(200).json({ student, workshops });
+    } catch (error) {
+      res.status(401);
+      throw new Error(error);
+    }
+  }),
   findStudentById: asyncHandler(async (req, res) => {
     try {
       const { id } = req.params;
-      const workshop = await Workshop.findById(id);
-      res.status(200).json({ workshop });
+      const student = await Student.findById(id);
+      res.status(200).json({ student });
     } catch (error) {
       res.status(401);
       throw new Error(error);
