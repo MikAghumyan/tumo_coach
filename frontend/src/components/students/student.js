@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const Student = (props) => {
   return (
     <tr>
@@ -8,7 +10,14 @@ const Student = (props) => {
         <button className="button is-info">Workshops</button>
       </td>
       <td>
-        <button className="button is-danger">Delete</button>
+        <button
+          className="button is-danger "
+          onClick={() => {
+            props.deleteStudent(props.student._id);
+          }}
+        >
+          Delete
+        </button>
       </td>
     </tr>
   );

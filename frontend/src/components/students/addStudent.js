@@ -37,9 +37,10 @@ const AddStudent = (props) => {
       );
       if (response.data) {
         console.log(response.data);
-        props.refetch();
+        props.refetch(response.data.student);
       }
     } catch (error) {}
+    props.setActive();
   };
 
   return (
@@ -52,7 +53,7 @@ const AddStudent = (props) => {
       ></div>
       <div className="modal-card">
         <header className="modal-card-head">
-          <p className="modal-card-title">Modal title</p>
+          <p className="modal-card-title">Add a Student</p>
           <button
             className="delete"
             aria-label="close"
@@ -96,11 +97,9 @@ const AddStudent = (props) => {
           </form>
         </section>
         <footer className="modal-card-foot">
-          <Link to="/students">
-            <button onClick={onSubmit} class="button is-success">
-              Save changes
-            </button>
-          </Link>
+          <button onClick={onSubmit} className="button is-success">
+            Save changes
+          </button>
         </footer>
       </div>
     </div>

@@ -3,22 +3,19 @@ import axios from "axios";
 import Fuse from "fuse.js";
 
 import Navbar from "../components/navbar";
-import Student from "../components/student";
+import Student from "../components/students/student";
 import AddStudent from "../components/students/addStudent";
 
 const Students = (props) => {
   const [fetchedStudents, setFetchedStudents] = useState([]);
   const [students, setStudents] = useState([]);
-  const [formData, setFormData] = useState({ name: "", surname: "" });
   const fuse = new Fuse(fetchedStudents, {
     includeScore: true,
     keys: ["name", "surname"],
   });
 
-  const { name, surname } = formData;
-
   const search = (value) => {
-    if (value == "") {
+    if (value === "") {
       setStudents(fetchedStudents);
     } else {
       console.log(value);
@@ -28,52 +25,30 @@ const Students = (props) => {
     }
   };
 
-  const onChange = (e) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const deleteStudent = async (id) => {
     try {
-      const response = await axios.post(
-        "/api/students/",
-        {
-          name,
-          surname,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("coach")).token
-            }`,
-          },
-        }
-      );
-      if (response.data) {
-        console.log(response.data);
-        setStudents((prevState) => [...prevState, response.data.student]);
-      }
-    } catch (error) {}
-  };
-
-  const refetch = async () => {
-    try {
-      const res = await axios.get("/api/students", {
+      const res = await axios.delete(`/api/students/${id}`, {
         headers: {
           Authorization: `Bearer ${
             JSON.parse(localStorage.getItem("coach")).token
           }`,
         },
       });
-      console.log(res.data.students);
-      setFetchedStudents(res.data.students);
-      setStudents(res.data.students);
+      let _students = fetchedStudents.filter(
+        (student) => student._id !== res.data.student._id
+      );
+      console.log(_students);
+      setFetchedStudents(_students);
+      setStudents(_students);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const refetch = async (data) => {
+    console.log(data);
+    setFetchedStudents((prevState) => [...prevState, data]);
+    setStudents((prevState) => [...prevState, data]);
   };
 
   useEffect(() => {
@@ -119,7 +94,13 @@ const Students = (props) => {
           </thead>
           <tbody>
             {students.map((student, i) => {
-              return <Student key={i} student={student} />;
+              return (
+                <Student
+                  key={i}
+                  student={student}
+                  deleteStudent={deleteStudent}
+                />
+              );
             })}
           </tbody>
         </table>
