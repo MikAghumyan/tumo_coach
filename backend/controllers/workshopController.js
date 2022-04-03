@@ -20,6 +20,20 @@ module.exports = {
       throw new Error("please add all the information");
     }
   }),
+  deleteWorkshop: asyncHandler(async (req, res) => {
+    try {
+      const { id } = req.params;
+      const workshop = await Workshop.findByIdAndDelete(id);
+      const students = await Student.updateMany(
+        { workshops: id },
+        { $pull: { workshops: id } }
+      );
+      res.status(200).json({ workshop, students });
+    } catch (error) {
+      res.status(401);
+      throw new Error(error);
+    }
+  }),
   findWorkshops: asyncHandler(async (req, res) => {
     try {
       const workshops = await Workshop.find();

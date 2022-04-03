@@ -7,11 +7,15 @@ const {
   studentsByWorkshop,
   addStudent,
   removeStudent,
+  deleteWorkshop,
 } = require("../controllers/workshopController");
 const authorize = require("../middlewares/authMiddleware");
 
 router.route("/").get(authorize, findWorkshops).post(authorize, createWorkshop);
-router.get("/:id", authorize, findWorkshopById);
+router
+  .route("/:id")
+  .get(authorize, findWorkshopById)
+  .delete(authorize, deleteWorkshop);
 router.get("/:id/students", authorize, studentsByWorkshop);
 router.put("/attach", authorize, addStudent);
 router.put("/detach", authorize, removeStudent);
