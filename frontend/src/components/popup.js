@@ -9,7 +9,7 @@ const Popup = (props) => {
       ></div>
       <div className="modal-card">
         <header className="modal-card-head">
-          <p className="modal-card-title">Modal title</p>
+          <p className="modal-card-title">{props.title}</p>
           <button
             className="delete"
             aria-label="close"
@@ -19,7 +19,17 @@ const Popup = (props) => {
           ></button>
         </header>
         <section className="modal-card-body">{props.children}</section>
-        <footer className="modal-card-foot"></footer>
+        <footer className="modal-card-foot">
+          <button
+            className="button is-success"
+            disabled={true}
+            onClick={() => {
+              props.setActive();
+            }}
+          >
+            Save Changes
+          </button>
+        </footer>
       </div>
     </div>
   );
