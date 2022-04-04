@@ -6,8 +6,14 @@ const Workshop = require("../models/Workshop.js");
 module.exports = {
   createStudent: asyncHandler(async (req, res) => {
     try {
-      const { name, surname } = req.body;
-      const student = await Student.create({ name, surname, students: [] });
+      const { name, surname, email, phoneNumber } = req.body;
+      const student = await Student.create({
+        name,
+        surname,
+        email,
+        phoneNumber,
+        workshops: [],
+      });
       res.status(200).json({ student });
     } catch (error) {
       res.status(401);

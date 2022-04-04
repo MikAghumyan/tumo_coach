@@ -6,9 +6,11 @@ const AddStudent = (props) => {
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
+    email: "",
+    phoneNumber: "",
   });
 
-  const { name, surname } = formData;
+  const { name, surname, email, phoneNumber } = formData;
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -26,6 +28,8 @@ const AddStudent = (props) => {
         {
           name,
           surname,
+          email,
+          phoneNumber,
         },
         {
           headers: {
@@ -89,6 +93,36 @@ const AddStudent = (props) => {
                   name="surname"
                   id="surname"
                   value={surname}
+                  onChange={onChange}
+                  required
+                />
+              </div>
+            </div>
+            <div className="field">
+              <label className="label">Email</label>
+              <div className="control">
+                <input
+                  type="email"
+                  placeholder="e.g. nanisahakyan@gmail.com"
+                  className="input"
+                  name="email"
+                  id="email"
+                  value={email}
+                  onChange={onChange}
+                  required
+                />
+              </div>
+            </div>
+            <div className="field">
+              <label className="label">Phone Number</label>
+              <div className="control">
+                <input
+                  type="tel"
+                  placeholder="e.g. +37496000069"
+                  className="input"
+                  name="phoneNumber"
+                  id="phoneNumber"
+                  value={phoneNumber}
                   onChange={onChange}
                   required
                 />
