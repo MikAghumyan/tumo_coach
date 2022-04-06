@@ -22,12 +22,21 @@ const Popup = (props) => {
         <footer className="modal-card-foot">
           <button
             className="button is-success"
-            disabled={true}
+            disabled={props.hasChanges ? false : true}
             onClick={() => {
               props.setActive();
             }}
           >
             Save Changes
+          </button>
+          <button
+            className="button is-success is-light"
+            disabled={props.hasChanges ? false : true}
+            onClick={() => {
+              props.setDefault();
+            }}
+          >
+            Reset
           </button>
         </footer>
       </div>

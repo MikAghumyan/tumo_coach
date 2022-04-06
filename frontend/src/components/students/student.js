@@ -6,9 +6,23 @@ const Student = (props) => {
   const [student, setStudent] = useState(props.student);
   const [studentWorkshops, setStudentWorkshops] = useState([]);
   const [isMoreInfoActive, setIsMoreInfoActive] = useState(false);
+  const [hasChanges, setHasChanges] = useState(false);
+
+  const { name, surname, email, phoneNumber } = student;
 
   const setMoreInfoStatus = () => {
     setIsMoreInfoActive(!isMoreInfoActive);
+  };
+
+  const setDefault = () => {
+    setStudent(props.student);
+  };
+
+  const onChange = (e) => {
+    setStudent((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   useEffect(() => {
@@ -27,7 +41,22 @@ const Student = (props) => {
     } catch (error) {
       console.log(error);
     }
-  }, [studentWorkshops]);
+  }, []);
+
+  useEffect(() => {
+    if (
+      name !== props.student.name ||
+      surname !== props.student.surname ||
+      email !== props.student.email ||
+      phoneNumber !== props.student.phoneNumber
+    ) {
+      setHasChanges(true);
+      console.log(name, props.student.name);
+    } else {
+      setHasChanges(false);
+      console.log(name, props.student.name);
+    }
+  }, [student]);
 
   return (
     <tr>
@@ -43,6 +72,8 @@ const Student = (props) => {
           title="Student Info"
           isActive={isMoreInfoActive}
           setActive={setMoreInfoStatus}
+          hasChanges={hasChanges}
+          setDefault={setDefault}
         >
           <div className="field is-horizontal">
             <div className="field-label is-normal">
@@ -51,7 +82,13 @@ const Student = (props) => {
             <div className="field-body">
               <div className="field">
                 <div className="control">
-                  <input className="input" type="text" value={student.name} />
+                  <input
+                    className="input"
+                    type="text"
+                    name="name"
+                    value={student.name}
+                    onChange={onChange}
+                  />
                 </div>
               </div>
             </div>
@@ -66,7 +103,9 @@ const Student = (props) => {
                   <input
                     className="input"
                     type="text"
+                    name="surname"
                     value={student.surname}
+                    onChange={onChange}
                   />
                 </div>
               </div>
@@ -79,7 +118,13 @@ const Student = (props) => {
             <div className="field-body">
               <div className="field">
                 <div className="control">
-                  <input className="input" type="text" value={student.email} />
+                  <input
+                    className="input"
+                    type="text"
+                    name="email"
+                    value={student.email}
+                    onChange={onChange}
+                  />
                 </div>
               </div>
             </div>
@@ -94,7 +139,9 @@ const Student = (props) => {
                   <input
                     className="input"
                     type="text"
+                    name="phoneNumber"
                     value={student.phoneNumber}
+                    onChange={onChange}
                   />
                 </div>
               </div>
