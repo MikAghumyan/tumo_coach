@@ -69,14 +69,14 @@ module.exports = {
   updateStudent: asyncHandler(async (req, res) => {
     try {
       const { id } = req.params;
-      const student = req.query;
+      const student = req.body;
       const updatedStudent = await Student.findByIdAndUpdate(id, {
         name: student.name,
         surname: student.surname,
         email: student.email,
         phoneNumber: student.phoneNumber,
       }).exec();
-      console.log(updatedStudent);
+      res.status(200).json(updatedStudent);
     } catch (error) {
       res.status(401);
       throw new Error(error);

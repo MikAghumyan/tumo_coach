@@ -46,9 +46,20 @@ const Students = (props) => {
   };
 
   const refetch = async (data) => {
-    console.log(data);
-    setFetchedStudents((prevState) => [...prevState, data]);
-    setStudents((prevState) => [...prevState, data]);
+    try {
+      const res = await axios.get("/api/students", {
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("coach")).token
+          }`,
+        },
+      });
+      console.log(res.data.students);
+      setFetchedStudents(res.data.students);
+      setStudents(res.data.students);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -99,6 +110,7 @@ const Students = (props) => {
                   key={i}
                   student={student}
                   deleteStudent={deleteStudent}
+                  refetch={refetch}
                 />
               );
             })}

@@ -41,7 +41,7 @@ const AddStudent = (props) => {
       );
       if (response.data) {
         console.log(response.data);
-        props.refetch(response.data.student);
+        props.refetch();
       }
     } catch (error) {}
     props.setActive();

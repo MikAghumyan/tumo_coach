@@ -86,8 +86,8 @@ const Navbar = (props) => {
                 <AddStudent
                   isActive={isBtnAcitve}
                   setActive={setBtnStatus}
-                  refetch={(data) => {
-                    props.refetch(data);
+                  refetch={() => {
+                    props.refetch();
                   }}
                 />
               )}

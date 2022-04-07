@@ -24,6 +24,7 @@ const Popup = (props) => {
             className="button is-success"
             disabled={props.hasChanges ? false : true}
             onClick={() => {
+              props.updateReq();
               props.setActive();
             }}
           >

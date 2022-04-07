@@ -14,6 +14,33 @@ const Student = (props) => {
     setIsMoreInfoActive(!isMoreInfoActive);
   };
 
+  const updateReq = async () => {
+    try {
+      const response = await axios.put(
+        `/api/students/${props.student._id}`,
+        {
+          name,
+          surname,
+          email,
+          phoneNumber,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("coach")).token
+            }`,
+          },
+        }
+      );
+      if (response.data) {
+        console.log(response.data);
+        props.refetch();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const setDefault = () => {
     setStudent(props.student);
   };
@@ -74,6 +101,7 @@ const Student = (props) => {
           setActive={setMoreInfoStatus}
           hasChanges={hasChanges}
           setDefault={setDefault}
+          updateReq={updateReq}
         >
           <div className="field is-horizontal">
             <div className="field-label is-normal">
