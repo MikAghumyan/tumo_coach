@@ -4,10 +4,14 @@ import Popup from "../popup";
 
 const Student = (props) => {
   const [student, setStudent] = useState(props.student);
+  const [workshopInputs, setWorkshopInputs] = useState({
+    workshop: "",
+    level: "",
+  });
   const [studentWorkshops, setStudentWorkshops] = useState([]);
   const [isWorkshopsListActive, setIsWorkshopsListActive] = useState(false);
   const [isMoreInfoActive, setIsMoreInfoActive] = useState(false);
-  const [hasInfoChanges, setHasChanges] = useState(false);
+  const [hasInfoChanges, setHasInfoChanges] = useState(false);
 
   const { name, surname, email, phoneNumber } = student;
 
@@ -64,6 +68,34 @@ const Student = (props) => {
       );
       if (response.data) {
         console.log(response.data);
+        let _workshops = studentWorkshops.filter(
+          (workshop) => workshop._id !== response.data.workshop._id
+        );
+        setStudentWorkshops(_workshops);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const attachWorkshop = async () => {
+    try {
+      const response = await axios.put(
+        `/api/students/${student._id}/attach`,
+        {
+          name: workshopInputs.workshop,
+          level: workshopInputs.level,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("coach")).token
+            }`,
+          },
+        }
+      );
+      if (response.data) {
+        console.log(response.data);
         props.refetch();
       }
     } catch (error) {
@@ -77,6 +109,13 @@ const Student = (props) => {
 
   const onChange = (e) => {
     setStudent((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const onChangeWorkshop = (e) => {
+    setWorkshopInputs((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
@@ -107,10 +146,10 @@ const Student = (props) => {
       email !== props.student.email ||
       phoneNumber !== props.student.phoneNumber
     ) {
-      setHasChanges(true);
+      setHasInfoChanges(true);
       console.log(name, props.student.name);
     } else {
-      setHasChanges(false);
+      setHasInfoChanges(false);
       console.log(name, props.student.name);
     }
   }, [student]);
@@ -128,6 +167,12 @@ const Student = (props) => {
           title="Student workshops"
           isActive={isWorkshopsListActive}
           setActive={setWorkshopsListStatus}
+          hasChanges={
+            workshopInputs.workshop !== "" || workshopInputs.level !== ""
+              ? true
+              : false
+          }
+          updateReq={attachWorkshop}
         >
           <div className="content is-medium">
             <ul>
@@ -155,6 +200,8 @@ const Student = (props) => {
                       type="text"
                       name="workshop"
                       placeholder="Workshop"
+                      value={workshopInputs.workshop}
+                      onChange={onChangeWorkshop}
                     />
                   </div>
                 </div>
@@ -162,9 +209,13 @@ const Student = (props) => {
                   <div className="control">
                     <input
                       className="input"
-                      type="text"
-                      name="workshop"
+                      type="number"
+                      min={1}
+                      max={3}
+                      name="level"
                       placeholder="Level"
+                      value={workshopInputs.level}
+                      onChange={onChangeWorkshop}
                     />
                   </div>
                 </div>
