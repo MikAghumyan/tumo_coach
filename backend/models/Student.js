@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const StudentSchema = new mongoose.Schema({
   name: String,
   surname: String,
-  email: String,
+  email: { type: String, unique: true },
   phoneNumber: String,
   workshops: [{ type: mongoose.Types.ObjectId, ref: "Workshop" }],
 });
