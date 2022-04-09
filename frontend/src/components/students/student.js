@@ -96,7 +96,10 @@ const Student = (props) => {
       );
       if (response.data) {
         console.log(response.data);
-        props.refetch();
+        setStudentWorkshops((prevState) => [
+          ...prevState,
+          response.data.workshop,
+        ]);
       }
     } catch (error) {
       console.log(error);
@@ -160,7 +163,10 @@ const Student = (props) => {
       <td>{props.student.name}</td>
       <td>{props.student.surname}</td>
       <td>
-        <button onClick={setWorkshopsListStatus} className="button is-info">
+        <button
+          onClick={setWorkshopsListStatus}
+          className="button is-info is-outlined is-light"
+        >
           Workshops
         </button>
         <Popup
@@ -223,7 +229,10 @@ const Student = (props) => {
             </div>
           </div>
         </Popup>{" "}
-        <button onClick={setMoreInfoStatus} className="button is-success">
+        <button
+          onClick={setMoreInfoStatus}
+          className="button is-primary is-outlined is-light"
+        >
           More Info
         </button>{" "}
         <Popup
@@ -308,7 +317,7 @@ const Student = (props) => {
           </div>
         </Popup>
         <button
-          className="button is-danger "
+          className="button is-danger is-outlined is-light"
           onClick={() => {
             props.deleteStudent(props.student._id);
           }}

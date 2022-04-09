@@ -118,7 +118,7 @@ const AddStudent = (props) => {
               <div className="control">
                 <input
                   type="tel"
-                  placeholder="e.g. +37496000069"
+                  placeholder="e.g. +37496000000"
                   className="input"
                   name="phoneNumber"
                   id="phoneNumber"
