@@ -7,6 +7,7 @@ const {
   workshopsByStudent,
   deleteStudent,
   updateStudent,
+  addToWorkshop,
 } = require("../controllers/studentController");
 const authorize = require("../middlewares/authMiddleware");
 
@@ -16,6 +17,7 @@ router
   .get(authorize, findStudentById)
   .put(authorize, updateStudent)
   .delete(authorize, deleteStudent);
+router.put("/:id/attach", authorize, addToWorkshop);
 router.get("/:id/workshops", authorize, workshopsByStudent);
 
 module.exports = router;

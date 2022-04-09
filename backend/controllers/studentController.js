@@ -82,4 +82,25 @@ module.exports = {
       throw new Error(error);
     }
   }),
+  addToWorkshop: asyncHandler(async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { name, level } = req.body;
+
+      const workshop = await Workshop.findOneAndUpdate(
+        { name, level },
+        {
+          $addToSet: { students: id },
+        }
+      ).exec();
+      const student = await Student.findByIdAndUpdate(id, {
+        $addToSet: { workshops: workshop._id },
+      }).exec();
+
+      res.status(200).json({ workshop, student });
+    } catch (error) {
+      res.status(401);
+      throw new Error(error);
+    }
+  }),
 };
