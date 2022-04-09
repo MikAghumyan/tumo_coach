@@ -72,10 +72,10 @@ module.exports = {
       const { studentId, workshopId } = req.body;
 
       const student = await Student.findByIdAndUpdate(studentId, {
-        $push: { workshops: workshopId },
+        $addToSet: { workshops: workshopId },
       }).exec();
       const workshop = await Workshop.findByIdAndUpdate(workshopId, {
-        $push: { students: studentId },
+        $addToSet: { students: studentId },
       }).exec();
       console.log(student, workshop);
 
