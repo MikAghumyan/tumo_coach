@@ -5,13 +5,18 @@ import Popup from "../popup";
 const Student = (props) => {
   const [student, setStudent] = useState(props.student);
   const [studentWorkshops, setStudentWorkshops] = useState([]);
+  const [isWorkshopsListActive, setIsWorkshopsListActive] = useState(false);
   const [isMoreInfoActive, setIsMoreInfoActive] = useState(false);
-  const [hasChanges, setHasChanges] = useState(false);
+  const [hasInfoChanges, setHasChanges] = useState(false);
 
   const { name, surname, email, phoneNumber } = student;
 
   const setMoreInfoStatus = () => {
     setIsMoreInfoActive(!isMoreInfoActive);
+  };
+
+  const setWorkshopsListStatus = () => {
+    setIsWorkshopsListActive(!isWorkshopsListActive);
   };
 
   const updateReq = async () => {
@@ -41,7 +46,32 @@ const Student = (props) => {
     }
   };
 
-  const setDefault = () => {
+  const removeWorkshop = async (workshopId) => {
+    try {
+      const response = await axios.put(
+        `/api/workshops/detach`,
+        {
+          workshopId,
+          studentId: student._id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("coach")).token
+            }`,
+          },
+        }
+      );
+      if (response.data) {
+        console.log(response.data);
+        props.refetch();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const setInfoDefault = () => {
     setStudent(props.student);
   };
 
@@ -91,7 +121,57 @@ const Student = (props) => {
       <td>{props.student.name}</td>
       <td>{props.student.surname}</td>
       <td>
-        <button className="button is-info">Workshops</button>{" "}
+        <button onClick={setWorkshopsListStatus} className="button is-info">
+          Workshops
+        </button>
+        <Popup
+          title="Student workshops"
+          isActive={isWorkshopsListActive}
+          setActive={setWorkshopsListStatus}
+        >
+          <div className="content is-medium">
+            <ul>
+              {studentWorkshops.map((workshop, i) => {
+                return (
+                  <li key={i}>
+                    {`${workshop.name} - level ${workshop.level} `}
+                    <a
+                      className="button is-small is-danger is-inverted"
+                      onClick={() => removeWorkshop(workshop._id)}
+                    >
+                      Remove
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+            <label className="label">Add Workshop</label>
+            <div className="field is-horizontal">
+              <div className="field-body">
+                <div className="field">
+                  <div className="control">
+                    <input
+                      className="input"
+                      type="text"
+                      name="workshop"
+                      placeholder="Workshop"
+                    />
+                  </div>
+                </div>
+                <div className="field">
+                  <div className="control">
+                    <input
+                      className="input"
+                      type="text"
+                      name="workshop"
+                      placeholder="Level"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Popup>{" "}
         <button onClick={setMoreInfoStatus} className="button is-success">
           More Info
         </button>{" "}
@@ -99,8 +179,8 @@ const Student = (props) => {
           title="Student Info"
           isActive={isMoreInfoActive}
           setActive={setMoreInfoStatus}
-          hasChanges={hasChanges}
-          setDefault={setDefault}
+          hasChanges={hasInfoChanges}
+          setDefault={setInfoDefault}
           updateReq={updateReq}
         >
           <div className="field is-horizontal">
