@@ -16,8 +16,8 @@ router
   .route("/:id")
   .get(authorize, findWorkshopById)
   .delete(authorize, deleteWorkshop);
+router.put("/:id/attach", authorize, addStudent);
 router.get("/:id/students", authorize, studentsByWorkshop);
-router.put("/attach", authorize, addStudent);
 router.put("/detach", authorize, removeStudent);
 
 module.exports = router;

@@ -68,16 +68,18 @@ module.exports = {
   }),
   addStudent: asyncHandler(async (req, res) => {
     try {
-      console.log(req.body, req.params);
-      const { studentId, workshopId } = req.body;
+      const { id } = req.params;
+      const { email } = req.body;
 
-      const student = await Student.findByIdAndUpdate(studentId, {
-        $addToSet: { workshops: workshopId },
+      const student = await Student.findOneAndUpdate(
+        { email },
+        {
+          $addToSet: { workshops: id },
+        }
+      ).exec();
+      const workshop = await Workshop.findByIdAndUpdate(id, {
+        $addToSet: { students: student._id },
       }).exec();
-      const workshop = await Workshop.findByIdAndUpdate(workshopId, {
-        $addToSet: { students: studentId },
-      }).exec();
-      console.log(student, workshop);
 
       res.status(200).json({ workshop, student });
     } catch (error) {
