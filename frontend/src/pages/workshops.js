@@ -55,7 +55,7 @@ const Workshops = (props) => {
         },
       });
       setFetchedWorkshops(res.data.workshops);
-      setWorkshops(res.data.workhsops);
+      setWorkshops(res.data.workshops);
     } catch (error) {
       console.log(error);
     }

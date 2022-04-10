@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import AddStudent from "./students/addStudent";
+import AddWorkshop from "./workshops/addWorkshop";
 
 const Navbar = (props) => {
   const [isBtnAcitve, setIsBtnActive] = useState(false);
@@ -84,6 +85,15 @@ const Navbar = (props) => {
               </a>
               {props.currentPage === "students" && (
                 <AddStudent
+                  isActive={isBtnAcitve}
+                  setActive={setBtnStatus}
+                  refetch={() => {
+                    props.refetch();
+                  }}
+                />
+              )}
+              {props.currentPage === "workshops" && (
+                <AddWorkshop
                   isActive={isBtnAcitve}
                   setActive={setBtnStatus}
                   refetch={() => {
