@@ -66,6 +66,20 @@ module.exports = {
       throw new Error(error);
     }
   }),
+  updateWorkshop: asyncHandler(async (req, res) => {
+    try {
+      const { id } = req.params;
+      const workshop = req.body;
+      const updatedWorkshop = await Workshop.findByIdAndUpdate(
+        id,
+        workshop
+      ).exec();
+      res.status(200).json(updatedWorkshop);
+    } catch (error) {
+      res.status(401);
+      throw new Error(error);
+    }
+  }),
   addStudent: asyncHandler(async (req, res) => {
     try {
       const { id } = req.params;

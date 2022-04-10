@@ -70,12 +70,10 @@ module.exports = {
     try {
       const { id } = req.params;
       const student = req.body;
-      const updatedStudent = await Student.findByIdAndUpdate(id, {
-        name: student.name,
-        surname: student.surname,
-        email: student.email,
-        phoneNumber: student.phoneNumber,
-      }).exec();
+      const updatedStudent = await Student.findByIdAndUpdate(
+        id,
+        student
+      ).exec();
       res.status(200).json(updatedStudent);
     } catch (error) {
       res.status(401);
