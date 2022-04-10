@@ -9,7 +9,8 @@ const Workshop = (props) => {
   const [workshopStudents, setWorkshopStudents] = useState([]);
   const [isStudentsListActive, setIsStudentsListActive] = useState(false);
   const [isMoreInfoActive, setIsMoreInfoActive] = useState(false);
-  const [hasInfoChanges, setHasInfoChanges] = useState(false);
+
+  const { name, level, description } = workshop;
 
   useEffect(() => {
     const fetchData = async (id) => {
@@ -37,8 +38,45 @@ const Workshop = (props) => {
     setIsStudentsListActive(!isStudentsListActive);
   };
 
+  const setInfoDefault = () => {
+    setWorkshop(props.workshop);
+  };
+
+  const onChange = (e) => {
+    setWorkshop((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
   const onChangeStudent = (e) => {
     setstudentEmailInuput(e.target.value);
+  };
+
+  const updateReq = async () => {
+    try {
+      const response = await axios.put(
+        `/api/workshops/${props.workshop._id}`,
+        {
+          name,
+          description,
+          level,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("coach")).token
+            }`,
+          },
+        }
+      );
+      if (response.data) {
+        console.log(response.data);
+        props.refetch();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const attachStudent = async () => {
@@ -150,9 +188,75 @@ const Workshop = (props) => {
             </div>
           </div>
         </Popup>{" "}
-        <button onClick className="button is-primary is-outlined is-light">
+        <button
+          onClick={setMoreInfoStatus}
+          className="button is-primary is-outlined is-light"
+        >
           More Info
-        </button>{" "}
+        </button>
+        <Popup
+          title="Workshop Info"
+          isActive={isMoreInfoActive}
+          setActive={setMoreInfoStatus}
+          hasChanges={
+            name !== props.workshop.name ||
+            description !== props.workshop.description ||
+            level !== props.workshop.level
+              ? true
+              : false
+          }
+          setDefault={setInfoDefault}
+          updateReq={updateReq}
+        >
+          <div className="field is-horizontal">
+            <div className="field-label is-normal">
+              <label className="label">Name</label>
+            </div>
+            <div className="field-body">
+              <div className="field">
+                <div className="control">
+                  <input
+                    className="input"
+                    type="text"
+                    name="name"
+                    value={name}
+                    onChange={onChange}
+                  />
+                </div>
+              </div>
+              <div className="field">
+                <div className="control">
+                  <input
+                    className="input"
+                    type="number"
+                    name="level"
+                    value={level}
+                    min="1"
+                    max="3"
+                    onChange={onChange}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="field is-horizontal">
+            <div className="field-label is-normal">
+              <label className="label">description</label>
+            </div>
+            <div className="field-body">
+              <div className="field">
+                <div className="control">
+                  <textarea
+                    className="textarea"
+                    name="description"
+                    value={description}
+                    onChange={onChange}
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Popup>{" "}
         <button
           onClick={() => {
             props.deleteWorkshop(props.workshop._id);
