@@ -3,6 +3,12 @@ import axios from "axios";
 
 import Popup from "../popup";
 
+const requestConfig = {
+  headers: {
+    Authorization: `Bearer ${JSON.parse(localStorage.getItem("coach")).token}`,
+  },
+};
+
 const Workshop = (props) => {
   const [workshop, setWorkshop] = useState(props.workshop);
   const [studentEmailInuput, setstudentEmailInuput] = useState("");
@@ -14,13 +20,10 @@ const Workshop = (props) => {
 
   useEffect(() => {
     const fetchData = async (id) => {
-      const res = await axios.get(`/api/workshops/${workshop._id}/students`, {
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("coach")).token
-          }`,
-        },
-      });
+      const res = await axios.get(
+        `/api/workshops/${workshop._id}/students`,
+        requestConfig
+      );
       setWorkshopStudents(res.data);
     };
     try {
@@ -71,7 +74,6 @@ const Workshop = (props) => {
         }
       );
       if (response.data) {
-        console.log(response.data);
         props.refetch();
       }
     } catch (error) {
@@ -95,7 +97,6 @@ const Workshop = (props) => {
         }
       );
       if (response.data) {
-        console.log(response.data);
         setWorkshopStudents((prevState) => [
           ...prevState,
           response.data.student,
@@ -123,7 +124,6 @@ const Workshop = (props) => {
         }
       );
       if (response.data) {
-        console.log(response.data);
         let _students = workshopStudents.filter(
           (student) => student._id !== response.data.student._id
         );

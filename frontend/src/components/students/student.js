@@ -2,6 +2,12 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Popup from "../popup";
 
+const requestConfig = {
+  headers: {
+    Authorization: `Bearer ${JSON.parse(localStorage.getItem("coach")).token}`,
+  },
+};
+
 const Student = (props) => {
   const [student, setStudent] = useState(props.student);
   const [workshopInputs, setWorkshopInputs] = useState({
@@ -11,9 +17,23 @@ const Student = (props) => {
   const [studentWorkshops, setStudentWorkshops] = useState([]);
   const [isWorkshopsListActive, setIsWorkshopsListActive] = useState(false);
   const [isMoreInfoActive, setIsMoreInfoActive] = useState(false);
-  const [hasInfoChanges, setHasInfoChanges] = useState(false);
 
   const { name, surname, email, phoneNumber } = student;
+
+  useEffect(() => {
+    const fetchData = async (id) => {
+      const res = await axios.get(
+        `/api/students/${student._id}/workshops`,
+        requestConfig
+      );
+      setStudentWorkshops(res.data);
+    };
+    try {
+      fetchData();
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   const setMoreInfoStatus = () => {
     setIsMoreInfoActive(!isMoreInfoActive);
@@ -42,7 +62,6 @@ const Student = (props) => {
         }
       );
       if (response.data) {
-        console.log(response.data);
         props.refetch();
       }
     } catch (error) {
@@ -67,7 +86,6 @@ const Student = (props) => {
         }
       );
       if (response.data) {
-        console.log(response.data);
         let _workshops = studentWorkshops.filter(
           (workshop) => workshop._id !== response.data.workshop._id
         );
@@ -95,7 +113,6 @@ const Student = (props) => {
         }
       );
       if (response.data) {
-        console.log(response.data);
         setStudentWorkshops((prevState) => [
           ...prevState,
           response.data.workshop,
@@ -123,39 +140,6 @@ const Student = (props) => {
       [e.target.name]: e.target.value,
     }));
   };
-
-  useEffect(() => {
-    const fetchData = async (id) => {
-      const res = await axios.get(`/api/students/${student._id}/workshops`, {
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("coach")).token
-          }`,
-        },
-      });
-      setStudentWorkshops(res.data);
-    };
-    try {
-      fetchData();
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (
-      name !== props.student.name ||
-      surname !== props.student.surname ||
-      email !== props.student.email ||
-      phoneNumber !== props.student.phoneNumber
-    ) {
-      setHasInfoChanges(true);
-      console.log(name, props.student.name);
-    } else {
-      setHasInfoChanges(false);
-      console.log(name, props.student.name);
-    }
-  }, [student]);
 
   return (
     <tr>
@@ -239,7 +223,14 @@ const Student = (props) => {
           title="Student Info"
           isActive={isMoreInfoActive}
           setActive={setMoreInfoStatus}
-          hasChanges={hasInfoChanges}
+          hasChanges={
+            name !== props.student.name ||
+            surname !== props.student.surname ||
+            email !== props.student.email ||
+            phoneNumber !== props.student.phoneNumber
+              ? true
+              : false
+          }
           setDefault={setInfoDefault}
           updateReq={updateReq}
         >

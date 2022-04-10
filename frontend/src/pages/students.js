@@ -6,6 +6,12 @@ import Navbar from "../components/navbar";
 import Student from "../components/students/student";
 import AddStudent from "../components/students/addStudent";
 
+const requestConfig = {
+  headers: {
+    Authorization: `Bearer ${JSON.parse(localStorage.getItem("coach")).token}`,
+  },
+};
+
 const Students = (props) => {
   const [fetchedStudents, setFetchedStudents] = useState([]);
   const [students, setStudents] = useState([]);
@@ -14,64 +20,9 @@ const Students = (props) => {
     keys: ["name", "surname"],
   });
 
-  const search = (value) => {
-    if (value === "") {
-      setStudents(fetchedStudents);
-    } else {
-      console.log(value);
-      console.log(fetchedStudents);
-      const filtered = fuse.search(value);
-      setStudents(filtered.map((item) => item.item));
-    }
-  };
-
-  const deleteStudent = async (id) => {
-    try {
-      const res = await axios.delete(`/api/students/${id}`, {
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("coach")).token
-          }`,
-        },
-      });
-      let _students = fetchedStudents.filter(
-        (student) => student._id !== res.data.student._id
-      );
-      console.log(_students);
-      setFetchedStudents(_students);
-      setStudents(_students);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const refetch = async (data) => {
-    try {
-      const res = await axios.get("/api/students", {
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("coach")).token
-          }`,
-        },
-      });
-      console.log(res.data.students);
-      setFetchedStudents(res.data.students);
-      setStudents(res.data.students);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("/api/students", {
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("coach")).token
-          }`,
-        },
-      });
-      console.log(res.data.students);
+      const res = await axios.get("/api/students", requestConfig);
       setFetchedStudents(res.data.students);
       setStudents(res.data.students);
     };
@@ -82,6 +33,38 @@ const Students = (props) => {
       console.log(error);
     }
   }, []);
+
+  const search = (value) => {
+    if (value === "") {
+      setStudents(fetchedStudents);
+    } else {
+      const filtered = fuse.search(value);
+      setStudents(filtered.map((item) => item.item));
+    }
+  };
+
+  const deleteStudent = async (id) => {
+    try {
+      const res = await axios.delete(`/api/students/${id}`, requestConfig);
+      let _students = fetchedStudents.filter(
+        (student) => student._id !== res.data.student._id
+      );
+      setFetchedStudents(_students);
+      setStudents(_students);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const refetch = async (data) => {
+    try {
+      const res = await axios.get("/api/students", requestConfig);
+      setFetchedStudents(res.data.students);
+      setStudents(res.data.students);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>

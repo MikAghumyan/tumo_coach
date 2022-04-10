@@ -36,7 +36,6 @@ const AddWorkshop = (props) => {
         }
       );
       if (response.data) {
-        console.log(response.data);
         props.refetch();
       }
     } catch (error) {}

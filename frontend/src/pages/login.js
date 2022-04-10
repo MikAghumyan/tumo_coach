@@ -18,7 +18,6 @@ const Login = (props) => {
       ...prevState,
       [e.target.name]: e.target.value,
     }));
-    console.log(password);
   };
 
   const onSubmit = async (e) => {
@@ -33,7 +32,6 @@ const Login = (props) => {
         props.verify(true);
         navigate("/students");
       } else {
-        console.log(response.data);
         return response.data;
       }
     } catch (err) {

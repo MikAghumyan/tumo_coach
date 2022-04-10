@@ -16,7 +16,6 @@ const AddStudent = (props) => {
       ...prevState,
       [e.target.name]: e.target.value,
     }));
-    console.log(surname);
   };
 
   const onSubmit = async (e) => {
@@ -39,7 +38,6 @@ const AddStudent = (props) => {
         }
       );
       if (response.data) {
-        console.log(response.data);
         props.refetch();
       }
     } catch (error) {}

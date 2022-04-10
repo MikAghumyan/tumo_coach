@@ -4,13 +4,14 @@ An administrative panel for Tumo coaches
 
 ### installation
 
-- create .env file and add your variables
-- install dependencies`
+- install dependencies
 
 ```
 npm install
 cd frontend && npm install
 ```
+
+- create .env file and add your variables
 
 ```
 MONGO_URI=<YOUR MONGODB URI>

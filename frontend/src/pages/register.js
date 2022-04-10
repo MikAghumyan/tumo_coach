@@ -38,7 +38,6 @@ const Register = (props) => {
           props.verify(true);
           navigate("/students");
         } else {
-          console.log(response.data);
           return response.data;
         }
       } catch (err) {

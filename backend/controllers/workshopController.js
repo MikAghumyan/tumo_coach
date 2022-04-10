@@ -6,7 +6,6 @@ const Workshop = require("../models/Workshop.js");
 module.exports = {
   createWorkshop: asyncHandler(async (req, res) => {
     try {
-      console.log(req.body);
       const { name, description, level } = req.body;
       const workshop = await Workshop.create({
         name,
@@ -56,7 +55,6 @@ module.exports = {
   studentsByWorkshop: asyncHandler(async (req, res) => {
     try {
       const { id } = req.params;
-      console.log(req.params);
       const studentsByWorkshop = await Workshop.findById(id).populate(
         "students"
       );
@@ -110,7 +108,6 @@ module.exports = {
       const workshop = await Workshop.findByIdAndUpdate(workshopId, {
         $pull: { students: studentId },
       }).exec();
-      console.log(student, workshop);
       res.status(200).json({ workshop, student });
     } catch (error) {
       res.status(401);

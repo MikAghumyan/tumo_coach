@@ -5,6 +5,12 @@ import Fuse from "fuse.js";
 import Navbar from "../components/navbar";
 import Workshop from "../components/workshops/workshop";
 
+const requestConfig = {
+  headers: {
+    Authorization: `Bearer ${JSON.parse(localStorage.getItem("coach")).token}`,
+  },
+};
+
 const Workshops = (props) => {
   const [fetchedWorkshops, setFetchedWorkshops] = useState([]);
   const [workshops, setWorkshops] = useState([]);
@@ -15,16 +21,9 @@ const Workshops = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get("api/workshops", {
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("coach")).token
-          }`,
-        },
-      });
+      const response = await axios.get("api/workshops", requestConfig);
       setFetchedWorkshops(response.data.workshops);
       setWorkshops(response.data.workshops);
-      console.log(response.data.workshops);
     };
 
     try {
@@ -38,8 +37,6 @@ const Workshops = (props) => {
     if (value === "") {
       setWorkshops(fetchedWorkshops);
     } else {
-      console.log(value);
-      console.log(fetchedWorkshops);
       const filtered = fuse.search(value);
       setWorkshops(filtered.map((item) => item.item));
     }
@@ -47,13 +44,7 @@ const Workshops = (props) => {
 
   const refetch = async (data) => {
     try {
-      const res = await axios.get("/api/workshops", {
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("coach")).token
-          }`,
-        },
-      });
+      const res = await axios.get("/api/workshops", requestConfig);
       setFetchedWorkshops(res.data.workshops);
       setWorkshops(res.data.workshops);
     } catch (error) {
@@ -63,13 +54,7 @@ const Workshops = (props) => {
 
   const deleteWorkshop = async (id) => {
     try {
-      const res = await axios.delete(`/api/workshops/${id}`, {
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("coach")).token
-          }`,
-        },
-      });
+      const res = await axios.delete(`/api/workshops/${id}`, requestConfig);
       let _workshops = fetchedWorkshops.filter(
         (workshop) => workshop._id !== res.data.workshop._id
       );

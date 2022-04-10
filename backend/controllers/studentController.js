@@ -56,7 +56,6 @@ module.exports = {
   workshopsByStudent: asyncHandler(async (req, res) => {
     try {
       const { id } = req.params;
-      console.log(req.params);
       const workshopsByStudent = await Student.findById(id).populate(
         "workshops"
       );
