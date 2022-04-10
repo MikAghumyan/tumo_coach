@@ -1,5 +1,120 @@
-const Workshops = () => {
-  return <div>Workshops</div>;
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Fuse from "fuse.js";
+
+import Navbar from "../components/navbar";
+import Workshop from "../components/workshops/workshop";
+
+const Workshops = (props) => {
+  const [fetchedWorkshops, setFetchedWorkshops] = useState([]);
+  const [workshops, setWorkshops] = useState([]);
+  const fuse = new Fuse(fetchedWorkshops, {
+    includeScore: true,
+    keys: ["name"],
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get("api/workshops", {
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("coach")).token
+          }`,
+        },
+      });
+      setFetchedWorkshops(response.data.workshops);
+      setWorkshops(response.data.workshops);
+      console.log(response.data.workshops);
+    };
+
+    try {
+      fetchData();
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  const search = (value) => {
+    if (value === "") {
+      setWorkshops(fetchedWorkshops);
+    } else {
+      console.log(value);
+      console.log(fetchedWorkshops);
+      const filtered = fuse.search(value);
+      setWorkshops(filtered.map((item) => item.item));
+    }
+  };
+
+  const refetch = async (data) => {
+    try {
+      const res = await axios.get("/api/workshops", {
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("coach")).token
+          }`,
+        },
+      });
+      setFetchedWorkshops(res.data.workshops);
+      setWorkshops(res.data.workhsops);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteWorkshop = async (id) => {
+    try {
+      const res = await axios.delete(`/api/workshops/${id}`, {
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("coach")).token
+          }`,
+        },
+      });
+      let _workshops = fetchedWorkshops.filter(
+        (workshop) => workshop._id !== res.data.workshop._id
+      );
+      setFetchedWorkshops(_workshops);
+      setWorkshops(_workshops);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return (
+    <div>
+      <Navbar
+        currentPage="workshops"
+        redirectPage="students"
+        search={search}
+        verify={props.verify}
+        refetch={refetch}
+      />
+      <div className="pt-2 pr-5 pl-5">
+        <table className="table is-fullwidth is-hoverable">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>level</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {workshops.map((workshop, i) => {
+              return (
+                <Workshop
+                  key={i}
+                  workshop={workshop}
+                  deleteWorkshop={deleteWorkshop}
+                  refetch={refetch}
+                />
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 };
 
 export default Workshops;
