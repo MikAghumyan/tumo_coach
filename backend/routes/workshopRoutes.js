@@ -13,6 +13,7 @@ const {
 const authorize = require("../middlewares/authMiddleware");
 
 router.route("/").get(authorize, findWorkshops).post(authorize, createWorkshop);
+router.put("/detach", authorize, removeStudent);
 router
   .route("/:id")
   .get(authorize, findWorkshopById)
@@ -20,6 +21,5 @@ router
   .delete(authorize, deleteWorkshop);
 router.put("/:id/attach", authorize, addStudent);
 router.get("/:id/students", authorize, studentsByWorkshop);
-router.put("/detach", authorize, removeStudent);
 
 module.exports = router;
