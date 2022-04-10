@@ -68,64 +68,88 @@ const AddStudent = (props) => {
         </header>
         <section className="modal-card-body">
           <form className="">
-            <div className="field">
-              <label className="label">Name</label>
-              <div className="control">
-                <input
-                  type="text"
-                  placeholder="e.g. Haykanush"
-                  className="input"
-                  name="name"
-                  id="name"
-                  value={name}
-                  onChange={onChange}
-                  required
-                />
+            <div className="field is-horizontal">
+              <div className="field-label is-normal">
+                <label className="label">Name</label>
+              </div>
+              <div className="field-body">
+                <div className="field">
+                  <div className="control">
+                    <input
+                      type="text"
+                      placeholder="e.g. Haykanush"
+                      className="input"
+                      name="name"
+                      id="name"
+                      value={name}
+                      onChange={onChange}
+                      required
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="field">
-              <label className="label">Surname</label>
-              <div className="control ">
-                <input
-                  type="text"
-                  placeholder="e.g Sahakyan"
-                  className="input"
-                  name="surname"
-                  id="surname"
-                  value={surname}
-                  onChange={onChange}
-                  required
-                />
+            <div className="field is-horizontal">
+              <div className="field-label is-normal">
+                <label className="label">Surname</label>
+              </div>
+              <div className="field-body">
+                <div className="field">
+                  <div className="control ">
+                    <input
+                      type="text"
+                      placeholder="e.g Sahakyan"
+                      className="input"
+                      name="surname"
+                      id="surname"
+                      value={surname}
+                      onChange={onChange}
+                      required
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="field">
-              <label className="label">Email</label>
-              <div className="control">
-                <input
-                  type="email"
-                  placeholder="e.g. nanisahakyan@gmail.com"
-                  className="input"
-                  name="email"
-                  id="email"
-                  value={email}
-                  onChange={onChange}
-                  required
-                />
+            <div className="field is-horizontal">
+              <div className="field-label is-normal">
+                <label className="label">Email</label>
+              </div>
+              <div className="field-body">
+                <div className="field">
+                  <div className="control">
+                    <input
+                      type="email"
+                      placeholder="e.g. nanisahakyan@gmail.com"
+                      className="input"
+                      name="email"
+                      id="email"
+                      value={email}
+                      onChange={onChange}
+                      required
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="field">
-              <label className="label">Phone Number</label>
-              <div className="control">
-                <input
-                  type="tel"
-                  placeholder="e.g. +37496000000"
-                  className="input"
-                  name="phoneNumber"
-                  id="phoneNumber"
-                  value={phoneNumber}
-                  onChange={onChange}
-                  required
-                />
+            <div className="field is-horizontal">
+              <div className="field-label is-normal">
+                <label className="label">Phone Number</label>
+              </div>
+              <div className="field-body">
+                <div className="field">
+                  <div className="control">
+                    <input
+                      type="tel"
+                      placeholder="e.g. +37496000000"
+                      className="input"
+                      name="phoneNumber"
+                      id="phoneNumber"
+                      value={phoneNumber}
+                      onChange={onChange}
+                      required
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </form>
