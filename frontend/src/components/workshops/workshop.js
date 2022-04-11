@@ -3,12 +3,6 @@ import axios from "axios";
 
 import Popup from "../popup";
 
-const requestConfig = {
-  headers: {
-    Authorization: `Bearer ${JSON.parse(localStorage.getItem("coach")).token}`,
-  },
-};
-
 const Workshop = (props) => {
   const [workshop, setWorkshop] = useState(props.workshop);
   const [studentEmailInuput, setstudentEmailInuput] = useState("");
@@ -17,6 +11,14 @@ const Workshop = (props) => {
   const [isMoreInfoActive, setIsMoreInfoActive] = useState(false);
 
   const { name, level, description } = workshop;
+
+  const requestConfig = {
+    headers: {
+      Authorization: `Bearer ${
+        JSON.parse(localStorage.getItem("coach")).token
+      }`,
+    },
+  };
 
   useEffect(() => {
     const fetchData = async (id) => {

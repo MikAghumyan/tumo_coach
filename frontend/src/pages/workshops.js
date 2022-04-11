@@ -5,12 +5,6 @@ import Fuse from "fuse.js";
 import Navbar from "../components/navbar";
 import Workshop from "../components/workshops/workshop";
 
-const requestConfig = {
-  headers: {
-    Authorization: `Bearer ${JSON.parse(localStorage.getItem("coach")).token}`,
-  },
-};
-
 const Workshops = (props) => {
   const [fetchedWorkshops, setFetchedWorkshops] = useState([]);
   const [workshops, setWorkshops] = useState([]);
@@ -18,6 +12,14 @@ const Workshops = (props) => {
     includeScore: true,
     keys: ["name"],
   });
+
+  const requestConfig = {
+    headers: {
+      Authorization: `Bearer ${
+        JSON.parse(localStorage.getItem("coach")).token
+      }`,
+    },
+  };
 
   useEffect(() => {
     const fetchData = async () => {

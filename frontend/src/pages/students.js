@@ -6,12 +6,6 @@ import Navbar from "../components/navbar";
 import Student from "../components/students/student";
 import AddStudent from "../components/students/addStudent";
 
-const requestConfig = {
-  headers: {
-    Authorization: `Bearer ${JSON.parse(localStorage.getItem("coach")).token}`,
-  },
-};
-
 const Students = (props) => {
   const [fetchedStudents, setFetchedStudents] = useState([]);
   const [students, setStudents] = useState([]);
@@ -19,6 +13,14 @@ const Students = (props) => {
     includeScore: true,
     keys: ["name", "surname"],
   });
+
+  const requestConfig = {
+    headers: {
+      Authorization: `Bearer ${
+        JSON.parse(localStorage.getItem("coach")).token
+      }`,
+    },
+  };
 
   useEffect(() => {
     const fetchData = async () => {
