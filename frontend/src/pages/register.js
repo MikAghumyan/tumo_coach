@@ -44,7 +44,6 @@ const Register = (props) => {
           return response.data;
         }
       } catch (err) {
-        console.log(err.response.data.message);
         setErrorMessage(err.response.data.message);
       }
     } else setErrorMessage("Passwords don't match");

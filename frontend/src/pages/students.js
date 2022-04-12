@@ -14,6 +14,8 @@ const Students = (props) => {
     keys: ["name", "surname"],
   });
 
+  const [errorMessage, setErrorMessage] = useState("");
+
   const requestConfig = {
     headers: {
       Authorization: `Bearer ${
@@ -32,7 +34,7 @@ const Students = (props) => {
     try {
       fetchData();
     } catch (error) {
-      console.log(error.response);
+      setErrorMessage(error.response.data.message);
     }
   }, []);
 
@@ -54,7 +56,7 @@ const Students = (props) => {
       setFetchedStudents(_students);
       setStudents(_students);
     } catch (error) {
-      console.log(error.response);
+      setErrorMessage(error.response.data.message);
     }
   };
 
@@ -64,7 +66,7 @@ const Students = (props) => {
       setFetchedStudents(res.data.students);
       setStudents(res.data.students);
     } catch (error) {
-      console.log(error.response);
+      setErrorMessage(error.response.data.message);
     }
   };
 

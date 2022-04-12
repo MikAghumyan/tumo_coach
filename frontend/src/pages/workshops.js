@@ -13,6 +13,8 @@ const Workshops = (props) => {
     keys: ["name"],
   });
 
+  const [errorMessage, setErrorMessage] = useState("");
+
   const requestConfig = {
     headers: {
       Authorization: `Bearer ${
@@ -31,7 +33,7 @@ const Workshops = (props) => {
     try {
       fetchData();
     } catch (error) {
-      console.log(error.response);
+      setErrorMessage(error.response.data.message);
     }
   }, []);
 
@@ -50,7 +52,7 @@ const Workshops = (props) => {
       setFetchedWorkshops(res.data.workshops);
       setWorkshops(res.data.workshops);
     } catch (error) {
-      console.log(error.response);
+      setErrorMessage(error.response.data.message);
     }
   };
 
@@ -63,7 +65,7 @@ const Workshops = (props) => {
       setFetchedWorkshops(_workshops);
       setWorkshops(_workshops);
     } catch (error) {
-      console.log(error.response);
+      setErrorMessage(error.response.data.message);
     }
   };
 

@@ -12,6 +12,8 @@ const Workshop = (props) => {
 
   const { name, level, description } = workshop;
 
+  const [errorMessage, setErrorMessage] = useState("");
+
   const requestConfig = {
     headers: {
       Authorization: `Bearer ${
@@ -31,7 +33,7 @@ const Workshop = (props) => {
     try {
       fetchData();
     } catch (error) {
-      console.log(error.response);
+      setErrorMessage(error.response.data.message);
     }
   }, []);
 
@@ -79,7 +81,7 @@ const Workshop = (props) => {
         props.refetch();
       }
     } catch (error) {
-      console.log(error.response);
+      setErrorMessage(error.response.data.message);
     }
   };
 
@@ -105,7 +107,7 @@ const Workshop = (props) => {
         ]);
       }
     } catch (error) {
-      console.log(error.response);
+      setErrorMessage(error.response.data.message);
     }
   };
 
@@ -132,7 +134,7 @@ const Workshop = (props) => {
         setWorkshopStudents(_students);
       }
     } catch (error) {
-      console.log(error.response);
+      setErrorMessage(error.response.data.message);
     }
   };
 

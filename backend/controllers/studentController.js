@@ -7,6 +7,12 @@ module.exports = {
   createStudent: asyncHandler(async (req, res) => {
     try {
       const { name, surname, email, phoneNumber } = req.body;
+
+      if (await Student.findOne({ email })) {
+        res.status(401);
+        throw new Error("Email already exists");
+      }
+
       const student = await Student.create({
         name,
         surname,

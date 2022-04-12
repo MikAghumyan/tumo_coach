@@ -7,6 +7,12 @@ module.exports = {
   createWorkshop: asyncHandler(async (req, res) => {
     try {
       const { name, description, level } = req.body;
+
+      if (await Workshop.findOne({ name, level })) {
+        res.status(401);
+        throw new Error("Workshop already exists");
+      }
+
       const workshop = await Workshop.create({
         name,
         description,
@@ -16,7 +22,7 @@ module.exports = {
       res.status(200).json({ workshop });
     } catch (error) {
       res.status(401);
-      throw new Error("please add all the information");
+      throw new Error(error);
     }
   }),
   deleteWorkshop: asyncHandler(async (req, res) => {

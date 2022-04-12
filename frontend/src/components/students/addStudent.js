@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+import Message from "../message";
+
 const AddStudent = (props) => {
   const [formData, setFormData] = useState({
     name: "",
@@ -8,6 +10,8 @@ const AddStudent = (props) => {
     email: "",
     phoneNumber: "",
   });
+
+  const [errorMessage, setErrorMessage] = useState("");
 
   const { name, surname, email, phoneNumber } = formData;
 
@@ -39,9 +43,11 @@ const AddStudent = (props) => {
       );
       if (response.data) {
         props.refetch();
+        props.setActive();
       }
-    } catch (error) {}
-    props.setActive();
+    } catch (error) {
+      setErrorMessage(error.response.data.message);
+    }
   };
 
   return (
@@ -65,6 +71,12 @@ const AddStudent = (props) => {
         </header>
         <section className="modal-card-body">
           <form className="">
+            {errorMessage !== "" && (
+              <Message
+                message={errorMessage}
+                close={() => setErrorMessage("")}
+              />
+            )}
             <div className="field is-horizontal">
               <div className="field-label is-normal">
                 <label className="label">Name</label>
