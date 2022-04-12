@@ -33,7 +33,7 @@ const Student = (props) => {
     try {
       fetchData();
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   }, []);
 
@@ -67,7 +67,7 @@ const Student = (props) => {
         props.refetch();
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   };
 
@@ -94,7 +94,7 @@ const Student = (props) => {
         setStudentWorkshops(_workshops);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   };
 
@@ -121,7 +121,7 @@ const Student = (props) => {
         ]);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   };
 

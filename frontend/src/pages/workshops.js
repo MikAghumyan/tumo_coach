@@ -31,7 +31,7 @@ const Workshops = (props) => {
     try {
       fetchData();
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   }, []);
 
@@ -50,7 +50,7 @@ const Workshops = (props) => {
       setFetchedWorkshops(res.data.workshops);
       setWorkshops(res.data.workshops);
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   };
 
@@ -63,7 +63,7 @@ const Workshops = (props) => {
       setFetchedWorkshops(_workshops);
       setWorkshops(_workshops);
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   };
 

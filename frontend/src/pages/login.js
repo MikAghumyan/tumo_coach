@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Message from "../components/message";
 
 const Login = (props) => {
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [formData, setFormData] = useState({
     email: "",
@@ -32,10 +34,10 @@ const Login = (props) => {
         props.verify(true);
         navigate("/students");
       } else {
-        return response.data;
+        console.log(response.data);
       }
     } catch (err) {
-      console.log(err);
+      setErrorMessage(err.response.data.message);
     }
   };
 
@@ -47,6 +49,12 @@ const Login = (props) => {
             <div className="column is-5-tablet is-4-desktop is-3-widescreen">
               <h1 className="title is-1">Login</h1>
               <form className="box" onSubmit={onSubmit}>
+                {errorMessage !== "" && (
+                  <Message
+                    message={errorMessage}
+                    close={() => setErrorMessage("")}
+                  />
+                )}
                 <div className="field">
                   <label className="label">Email</label>
                   <div className="control">

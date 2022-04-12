@@ -18,7 +18,7 @@ module.exports = {
 
       if (coachExists) {
         res.status(400);
-        throw new Error("Coach already axists");
+        throw new Error("Coach already exists");
       }
 
       const salt = await bcrypt.genSalt(10);
@@ -52,6 +52,10 @@ module.exports = {
       const { email, password } = req.body;
 
       const coach = await Coach.findOne({ email });
+      if (!coach) {
+        res.status(400);
+        throw new Error("Invalid credentials");
+      }
       const checkPassword = await bcrypt.compare(password, coach.password);
 
       if (coach && checkPassword)

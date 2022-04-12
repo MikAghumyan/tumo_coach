@@ -32,7 +32,7 @@ const Students = (props) => {
     try {
       fetchData();
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   }, []);
 
@@ -54,7 +54,7 @@ const Students = (props) => {
       setFetchedStudents(_students);
       setStudents(_students);
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   };
 
@@ -64,7 +64,7 @@ const Students = (props) => {
       setFetchedStudents(res.data.students);
       setStudents(res.data.students);
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   };
 

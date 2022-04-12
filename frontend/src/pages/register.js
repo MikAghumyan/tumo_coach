@@ -3,8 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+import Message from "../components/message";
+
 const Register = (props) => {
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -41,9 +44,10 @@ const Register = (props) => {
           return response.data;
         }
       } catch (err) {
-        console.log(err);
+        console.log(err.response.data.message);
+        setErrorMessage(err.response.data.message);
       }
-    }
+    } else setErrorMessage("Passwords don't match");
   };
 
   return (
@@ -54,6 +58,12 @@ const Register = (props) => {
             <div className="column is-5-tablet is-4-desktop is-3-widescreen">
               <h1 className="title is-1">Register</h1>
               <form className="box" onSubmit={onSubmit}>
+                {errorMessage !== "" && (
+                  <Message
+                    message={errorMessage}
+                    close={() => setErrorMessage("")}
+                  />
+                )}
                 <div className="field">
                   <label className="label">Name</label>
                   <div className="control">

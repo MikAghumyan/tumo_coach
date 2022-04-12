@@ -31,7 +31,7 @@ const Workshop = (props) => {
     try {
       fetchData();
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   }, []);
 
@@ -79,7 +79,7 @@ const Workshop = (props) => {
         props.refetch();
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   };
 
@@ -105,7 +105,7 @@ const Workshop = (props) => {
         ]);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   };
 
@@ -132,7 +132,7 @@ const Workshop = (props) => {
         setWorkshopStudents(_students);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   };
 
