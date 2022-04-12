@@ -74,6 +74,16 @@ module.exports = {
     try {
       const { id } = req.params;
       const workshop = req.body;
+
+      const otherWorkshop = await Workshop.findOne({
+        name: workshop.name,
+        level: workshop.level,
+      });
+      if (otherWorkshop && otherWorkshop._id !== id) {
+        res.status(402);
+        throw new Error("Workshop already exists");
+      }
+
       const updatedWorkshop = await Workshop.findByIdAndUpdate(
         id,
         workshop
@@ -95,6 +105,12 @@ module.exports = {
           $addToSet: { workshops: id },
         }
       ).exec();
+
+      if (!student) {
+        res.status(401);
+        throw new Error("Invalid Student");
+      }
+
       const workshop = await Workshop.findByIdAndUpdate(id, {
         $addToSet: { students: student._id },
       }).exec();
@@ -111,6 +127,11 @@ module.exports = {
       const student = await Student.findByIdAndUpdate(studentId, {
         $pull: { workshops: workshopId },
       }).exec();
+      if (!student) {
+        res.status(401);
+        throw new Error("Invalid student email");
+      }
+
       const workshop = await Workshop.findByIdAndUpdate(workshopId, {
         $pull: { students: studentId },
       }).exec();

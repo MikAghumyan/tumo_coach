@@ -1,7 +1,7 @@
 const Message = ({ message, close }) => {
   return (
-    <div class="notification is-danger">
-      <button class="delete" onClick={() => close()}></button>
+    <div className="notification is-danger">
+      <button className="delete" onClick={() => close()}></button>
       {message}
     </div>
   );

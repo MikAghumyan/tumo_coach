@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 import Popup from "../popup";
+import Message from "../message";
 
 const Workshop = (props) => {
   const [workshop, setWorkshop] = useState(props.workshop);
@@ -13,6 +14,7 @@ const Workshop = (props) => {
   const { name, level, description } = workshop;
 
   const [errorMessage, setErrorMessage] = useState("");
+  const [errorLocation, setErrorLocation] = useState("");
 
   const requestConfig = {
     headers: {
@@ -79,9 +81,11 @@ const Workshop = (props) => {
       );
       if (response.data) {
         props.refetch();
+        setMoreInfoStatus();
       }
     } catch (error) {
       setErrorMessage(error.response.data.message);
+      setErrorLocation("info");
     }
   };
 
@@ -108,6 +112,7 @@ const Workshop = (props) => {
       }
     } catch (error) {
       setErrorMessage(error.response.data.message);
+      setErrorLocation("students");
     }
   };
 
@@ -135,6 +140,7 @@ const Workshop = (props) => {
       }
     } catch (error) {
       setErrorMessage(error.response.data.message);
+      setErrorLocation("students");
     }
   };
 
@@ -157,6 +163,15 @@ const Workshop = (props) => {
           hasChanges={studentEmailInuput !== "" ? true : false}
           updateReq={attachStudent}
         >
+          {errorMessage !== "" && errorLocation === "students" && (
+            <Message
+              message={errorMessage}
+              close={() => {
+                setErrorMessage("");
+                setErrorLocation("");
+              }}
+            />
+          )}
           <div className="content is-medium">
             <ul>
               {workshopStudents.map((student, i) => {
@@ -212,6 +227,15 @@ const Workshop = (props) => {
           setDefault={setInfoDefault}
           updateReq={updateReq}
         >
+          {errorMessage !== "" && errorLocation === "info" && (
+            <Message
+              message={errorMessage}
+              close={() => {
+                setErrorMessage("");
+                setErrorLocation("");
+              }}
+            />
+          )}
           <div className="field is-horizontal">
             <div className="field-label is-normal">
               <label className="label">Name</label>

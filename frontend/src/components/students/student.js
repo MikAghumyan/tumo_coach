@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Popup from "../popup";
+import Message from "../message";
 
 const Student = (props) => {
   const [student, setStudent] = useState(props.student);
@@ -15,6 +16,7 @@ const Student = (props) => {
   const { name, surname, email, phoneNumber } = student;
 
   const [errorMessage, setErrorMessage] = useState("");
+  const [errorLocation, setErrorLocation] = useState("");
 
   const requestConfig = {
     headers: {
@@ -67,9 +69,11 @@ const Student = (props) => {
       );
       if (response.data) {
         props.refetch();
+        setMoreInfoStatus();
       }
     } catch (error) {
       setErrorMessage(error.response.data.message);
+      setErrorLocation("info");
     }
   };
 
@@ -97,6 +101,7 @@ const Student = (props) => {
       }
     } catch (error) {
       setErrorMessage(error.response.data.message);
+      setErrorLocation("workshops");
     }
   };
 
@@ -124,6 +129,7 @@ const Student = (props) => {
       }
     } catch (error) {
       setErrorMessage(error.response.data.message);
+      setErrorLocation("workshops");
     }
   };
 
@@ -168,6 +174,15 @@ const Student = (props) => {
           }
           updateReq={attachWorkshop}
         >
+          {errorMessage !== "" && errorLocation === "workshops" && (
+            <Message
+              message={errorMessage}
+              close={() => {
+                setErrorMessage("");
+                setErrorLocation("");
+              }}
+            />
+          )}
           <div className="content is-medium">
             <ul>
               {studentWorkshops.map((workshop, i) => {
@@ -238,6 +253,15 @@ const Student = (props) => {
           setDefault={setInfoDefault}
           updateReq={updateReq}
         >
+          {errorMessage !== "" && errorLocation === "info" && (
+            <Message
+              message={errorMessage}
+              close={() => {
+                setErrorMessage("");
+                setErrorLocation("");
+              }}
+            />
+          )}
           <div className="field is-horizontal">
             <div className="field-label is-normal">
               <label className="label">Name</label>

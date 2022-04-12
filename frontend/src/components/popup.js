@@ -25,7 +25,6 @@ const Popup = (props) => {
             disabled={props.hasChanges ? false : true}
             onClick={() => {
               props.updateReq();
-              props.setActive();
             }}
           >
             Save Changes
