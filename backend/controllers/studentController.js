@@ -52,8 +52,45 @@ module.exports = {
   }),
   findStudents: asyncHandler(async (req, res) => {
     try {
-      const students = await Student.find();
-      res.status(200).json({ students });
+      const { search } = req.query;
+      console.log(search);
+      if (search) {
+        const searchParts = search.split(" ");
+
+        if (searchParts.length >= 2) {
+          const students = await Student.find({
+            $or: [
+              {
+                $and: [
+                  { name: { $regex: searchParts[0], $options: "i" } },
+                  { surname: { $regex: searchParts[1], $options: "i" } },
+                ],
+              },
+              {
+                $and: [
+                  { name: { $regex: searchParts[1], $options: "i" } },
+                  { surname: { $regex: searchParts[0], $options: "i" } },
+                ],
+              },
+            ],
+          });
+
+          res.status(200).json({ students });
+        } else {
+          const students = await Student.find({
+            $or: [
+              { name: { $regex: searchParts[0], $options: "i" } },
+              { surname: { $regex: searchParts[0], $options: "i" } },
+            ],
+          });
+
+          res.status(200).json({ students });
+        }
+      } else {
+        const students = await Student.find();
+
+        res.status(200).json({ students });
+      }
     } catch (error) {
       res.status(401);
       throw new Error(error);
