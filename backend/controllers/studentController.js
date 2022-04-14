@@ -111,7 +111,7 @@ module.exports = {
       const student = req.body;
 
       const studentWithEmail = await Student.findOne({ email: student.email });
-      if (studentWithEmail && studentWithEmail._id !== id) {
+      if (studentWithEmail && studentWithEmail.id !== id) {
         res.status(402);
         throw new Error("Email already exists");
       }
