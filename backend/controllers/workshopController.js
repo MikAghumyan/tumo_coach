@@ -41,8 +41,19 @@ module.exports = {
   }),
   findWorkshops: asyncHandler(async (req, res) => {
     try {
-      const workshops = await Workshop.find();
-      res.status(200).json({ workshops });
+      const { search } = req.query;
+      console.log(search);
+      if (search) {
+        const workshops = await Workshop.find({
+          name: { $regex: search, $options: "i" },
+        });
+
+        res.status(200).json({ workshops });
+      } else {
+        const workshops = await Workshop.find();
+
+        res.status(200).json({ workshops });
+      }
     } catch (error) {
       res.status(401);
       throw new Error(error);
@@ -79,7 +90,7 @@ module.exports = {
         name: workshop.name,
         level: workshop.level,
       });
-      if (otherWorkshop && otherWorkshop._id !== id) {
+      if (otherWorkshop && otherWorkshop.id !== id) {
         res.status(402);
         throw new Error("Workshop already exists");
       }
