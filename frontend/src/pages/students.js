@@ -4,9 +4,10 @@ import Fuse from "fuse.js";
 
 import Navbar from "../components/navbar";
 import Student from "../components/students/student";
-import AddStudent from "../components/students/addStudent";
+import useQuery from "../hooks/useQuery";
 
 const Students = (props) => {
+  let query = useQuery();
   const [fetchedStudents, setFetchedStudents] = useState([]);
   const [students, setStudents] = useState([]);
   const fuse = new Fuse(fetchedStudents, {
@@ -17,6 +18,7 @@ const Students = (props) => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const requestConfig = {
+    params: { search: query.get("search") },
     headers: {
       Authorization: `Bearer ${
         JSON.parse(localStorage.getItem("coach")).token
