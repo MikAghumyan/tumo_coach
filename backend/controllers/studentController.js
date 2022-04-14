@@ -18,7 +18,6 @@ module.exports = {
         surname,
         email,
         phoneNumber,
-        workshops: [],
       });
       res.status(200).json({ student });
     } catch (error) {
@@ -99,10 +98,8 @@ module.exports = {
   workshopsByStudent: asyncHandler(async (req, res) => {
     try {
       const { id } = req.params;
-      const workshopsByStudent = await Student.findById(id).populate(
-        "workshops"
-      );
-      res.status(200).send(workshopsByStudent.workshops);
+      const workshopsByStudent = await Workshop.find({ students: id });
+      res.status(200).send(workshopsByStudent);
     } catch (error) {
       res.status(401);
       throw new Error(error);
@@ -146,13 +143,9 @@ module.exports = {
         throw new Error("Invalid Workshop");
       }
 
-      const student = await Student.findByIdAndUpdate(id, {
-        $addToSet: { workshops: workshop._id },
-      }).exec();
+      console.log(workshop);
 
-      console.log(student, workshop);
-
-      res.status(200).json({ workshop, student });
+      res.status(200).json({ workshop });
     } catch (error) {
       res.status(401);
       throw new Error(error);

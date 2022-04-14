@@ -5,7 +5,6 @@ const StudentSchema = new mongoose.Schema({
   surname: String,
   email: { type: String, unique: true },
   phoneNumber: String,
-  workshops: [{ type: mongoose.Types.ObjectId, ref: "Workshop" }],
 });
 
 module.exports = mongoose.model("Student", StudentSchema);

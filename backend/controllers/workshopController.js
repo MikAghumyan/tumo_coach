@@ -29,11 +29,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const workshop = await Workshop.findByIdAndDelete(id);
-      const students = await Student.updateMany(
-        { workshops: id },
-        { $pull: { workshops: id } }
-      );
-      res.status(200).json({ workshop, students });
+      res.status(200).json({ workshop });
     } catch (error) {
       res.status(401);
       throw new Error(error);
@@ -110,12 +106,8 @@ module.exports = {
       const { id } = req.params;
       const { email } = req.body;
 
-      const student = await Student.findOneAndUpdate(
-        { email },
-        {
-          $addToSet: { workshops: id },
-        }
-      ).exec();
+      const student = await Student.findOne({ email });
+      console.log(student);
 
       if (!student) {
         res.status(401);
@@ -124,7 +116,8 @@ module.exports = {
 
       const workshop = await Workshop.findByIdAndUpdate(id, {
         $addToSet: { students: student._id },
-      }).exec();
+      });
+      console.log(workshop);
 
       res.status(200).json({ workshop, student });
     } catch (error) {
@@ -135,13 +128,7 @@ module.exports = {
   removeStudent: asyncHandler(async (req, res) => {
     try {
       const { studentId, workshopId } = req.body;
-      const student = await Student.findByIdAndUpdate(studentId, {
-        $pull: { workshops: workshopId },
-      }).exec();
-      if (!student) {
-        res.status(401);
-        throw new Error("Invalid student email");
-      }
+      const student = await Student.findById(studentId);
 
       const workshop = await Workshop.findByIdAndUpdate(workshopId, {
         $pull: { students: studentId },
