@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -7,8 +7,12 @@ import AddWorkshop from "./workshops/addWorkshop";
 
 const Navbar = (props) => {
   const [isBtnAcitve, setIsBtnActive] = useState(false);
-  const [searchbox, setSearchbox] = useState("");
+  const [searchbox, setSearchbox] = useState(props.searchbox);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (searchbox === "") navigate(`/${props.currentPage}?search=${searchbox}`);
+  }, [searchbox]);
 
   const setBtnStatus = () => {
     setIsBtnActive(!isBtnAcitve);
@@ -23,7 +27,6 @@ const Navbar = (props) => {
 
   const onChange = (e) => {
     setSearchbox(e.target.value);
-    props.search(e.target.value);
   };
 
   return (
@@ -69,7 +72,19 @@ const Navbar = (props) => {
                 id="search"
                 value={searchbox}
                 onChange={onChange}
+                onKeyDown={(e) =>
+                  e.key === "Enter" &&
+                  navigate(`/${props.currentPage}?search=${searchbox}`)
+                }
               />
+            </div>
+            <div className="control">
+              <Link
+                className="button is-primary is-light"
+                to={`/${props.currentPage}?search=${searchbox}`}
+              >
+                Search
+              </Link>
             </div>
           </div>
         </div>

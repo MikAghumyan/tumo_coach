@@ -1,24 +1,19 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import axios from "axios";
-import Fuse from "fuse.js";
 
 import Navbar from "../components/navbar";
 import Workshop from "../components/workshops/workshop";
-import useQuery from "../hooks/useQuery";
 
 const Workshops = (props) => {
-  let query = useQuery();
-  const [fetchedWorkshops, setFetchedWorkshops] = useState([]);
+  let [searchParams, setSearchParams] = useSearchParams();
+  let searchbox = searchParams.get("search");
   const [workshops, setWorkshops] = useState([]);
-  const fuse = new Fuse(fetchedWorkshops, {
-    includeScore: true,
-    keys: ["name"],
-  });
 
   const [errorMessage, setErrorMessage] = useState("");
 
   const requestConfig = {
-    params: { search: query.get("search") },
+    params: { search: searchbox },
     headers: {
       Authorization: `Bearer ${
         JSON.parse(localStorage.getItem("coach")).token
@@ -29,7 +24,6 @@ const Workshops = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get("api/workshops", requestConfig);
-      setFetchedWorkshops(response.data.workshops);
       setWorkshops(response.data.workshops);
     };
 
@@ -38,21 +32,15 @@ const Workshops = (props) => {
     } catch (error) {
       setErrorMessage(error.response.data.message);
     }
-  }, []);
+  }, [searchParams]);
 
   const search = (value) => {
-    if (value === "") {
-      setWorkshops(fetchedWorkshops);
-    } else {
-      const filtered = fuse.search(value);
-      setWorkshops(filtered.map((item) => item.item));
-    }
+    setSearchParams({ search: value });
   };
 
   const refetch = async (data) => {
     try {
       const res = await axios.get("/api/workshops", requestConfig);
-      setFetchedWorkshops(res.data.workshops);
       setWorkshops(res.data.workshops);
     } catch (error) {
       setErrorMessage(error.response.data.message);
@@ -62,10 +50,9 @@ const Workshops = (props) => {
   const deleteWorkshop = async (id) => {
     try {
       const res = await axios.delete(`/api/workshops/${id}`, requestConfig);
-      let _workshops = fetchedWorkshops.filter(
+      let _workshops = workshops.filter(
         (workshop) => workshop._id !== res.data.workshop._id
       );
-      setFetchedWorkshops(_workshops);
       setWorkshops(_workshops);
     } catch (error) {
       setErrorMessage(error.response.data.message);
@@ -77,6 +64,7 @@ const Workshops = (props) => {
       <Navbar
         currentPage="workshops"
         redirectPage="students"
+        searchbox={searchbox ? searchbox : ""}
         search={search}
         verify={props.verify}
         refetch={refetch}

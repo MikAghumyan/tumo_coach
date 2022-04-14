@@ -1,24 +1,20 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import axios from "axios";
-import Fuse from "fuse.js";
 
 import Navbar from "../components/navbar";
 import Student from "../components/students/student";
 import useQuery from "../hooks/useQuery";
 
 const Students = (props) => {
-  let query = useQuery();
-  const [fetchedStudents, setFetchedStudents] = useState([]);
+  let [searchParams, setSearchParams] = useSearchParams();
+  let searchbox = searchParams.get("search");
   const [students, setStudents] = useState([]);
-  const fuse = new Fuse(fetchedStudents, {
-    includeScore: true,
-    keys: ["name", "surname"],
-  });
 
   const [errorMessage, setErrorMessage] = useState("");
 
   const requestConfig = {
-    params: { search: query.get("search") },
+    params: { search: searchbox },
     headers: {
       Authorization: `Bearer ${
         JSON.parse(localStorage.getItem("coach")).token
@@ -29,7 +25,6 @@ const Students = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get("/api/students", requestConfig);
-      setFetchedStudents(res.data.students);
       setStudents(res.data.students);
     };
 
@@ -38,24 +33,14 @@ const Students = (props) => {
     } catch (error) {
       setErrorMessage(error.response.data.message);
     }
-  }, []);
-
-  const search = (value) => {
-    if (value === "") {
-      setStudents(fetchedStudents);
-    } else {
-      const filtered = fuse.search(value);
-      setStudents(filtered.map((item) => item.item));
-    }
-  };
+  }, [searchParams]);
 
   const deleteStudent = async (id) => {
     try {
       const res = await axios.delete(`/api/students/${id}`, requestConfig);
-      let _students = fetchedStudents.filter(
+      let _students = students.filter(
         (student) => student._id !== res.data.student._id
       );
-      setFetchedStudents(_students);
       setStudents(_students);
     } catch (error) {
       setErrorMessage(error.response.data.message);
@@ -65,7 +50,6 @@ const Students = (props) => {
   const refetch = async (data) => {
     try {
       const res = await axios.get("/api/students", requestConfig);
-      setFetchedStudents(res.data.students);
       setStudents(res.data.students);
     } catch (error) {
       setErrorMessage(error.response.data.message);
@@ -77,7 +61,7 @@ const Students = (props) => {
       <Navbar
         currentPage="students"
         redirectPage="workshops"
-        search={search}
+        searchbox={searchbox ? searchbox : ""}
         verify={props.verify}
         refetch={refetch}
       />
