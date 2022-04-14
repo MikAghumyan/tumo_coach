@@ -4,6 +4,7 @@ import axios from "axios";
 
 import Navbar from "../components/navbar";
 import Workshop from "../components/workshops/workshop";
+import Message from "../components/message";
 
 const Workshops = (props) => {
   let [searchParams, setSearchParams] = useSearchParams();
@@ -69,6 +70,9 @@ const Workshops = (props) => {
         verify={props.verify}
         refetch={refetch}
       />
+      {errorMessage !== "" && (
+        <Message message={errorMessage} close={() => setErrorMessage("")} />
+      )}
       <div className="pt-2 pr-5 pl-5">
         <table className="table is-fullwidth is-hoverable">
           <thead>

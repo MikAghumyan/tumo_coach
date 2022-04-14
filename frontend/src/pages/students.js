@@ -4,10 +4,10 @@ import axios from "axios";
 
 import Navbar from "../components/navbar";
 import Student from "../components/students/student";
-import useQuery from "../hooks/useQuery";
+import Message from "../components/message";
 
 const Students = (props) => {
-  let [searchParams, setSearchParams] = useSearchParams();
+  let [searchParams] = useSearchParams();
   let searchbox = searchParams.get("search");
   const [students, setStudents] = useState([]);
 
@@ -65,6 +65,9 @@ const Students = (props) => {
         verify={props.verify}
         refetch={refetch}
       />
+      {errorMessage !== "" && (
+        <Message message={errorMessage} close={() => setErrorMessage("")} />
+      )}
       <div className="pt-2 pr-5 pl-5">
         <table className="table is-fullwidth is-hoverable">
           <thead>

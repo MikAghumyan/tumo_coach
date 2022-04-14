@@ -12,7 +12,7 @@ const Navbar = (props) => {
 
   useEffect(() => {
     if (searchbox === "") navigate(`/${props.currentPage}?search=${searchbox}`);
-  }, [searchbox]);
+  }, [searchbox, navigate, props.currentPage]);
 
   const setBtnStatus = () => {
     setIsBtnActive(!isBtnAcitve);
@@ -40,20 +40,9 @@ const Navbar = (props) => {
           <img
             src="https://tumo.org/wp-content/uploads/2018/02/ENG003_Stroke-Black-H80px-1.png"
             height="28"
+            alt="TUMO"
           />
         </div>
-
-        <a
-          role="button"
-          className="navbar-burger"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample"
-        >
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
       </div>
 
       <div id="" className="navbar-menu">
@@ -92,12 +81,12 @@ const Navbar = (props) => {
         <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
-              <a
+              <button
                 onClick={setBtnStatus}
                 className="button is-primary is-inverted is-light"
               >
                 Add a {props.currentPage.slice(0, -1)}
-              </a>
+              </button>
               {props.currentPage === "students" && (
                 <AddStudent
                   isActive={isBtnAcitve}
@@ -116,12 +105,12 @@ const Navbar = (props) => {
                   }}
                 />
               )}
-              <a
+              <button
                 onClick={logout}
                 className="button is-primary is-danger is-light"
               >
                 Logout
-              </a>
+              </button>
             </div>
           </div>
         </div>

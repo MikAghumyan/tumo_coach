@@ -3,8 +3,6 @@ import {
   Route,
   Routes,
   Navigate,
-  NavLink,
-  Link,
 } from "react-router-dom";
 import "bulma/css/bulma.min.css";
 
