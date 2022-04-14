@@ -4,6 +4,13 @@ An administrative panel for Tumo coaches
 
 ### installation
 
+- install nodemon
+```
+npm install -g nodemon
+#or
+npm install --save-dev nodemon
+```
+
 - install dependencies
 
 ```
