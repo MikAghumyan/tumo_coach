@@ -18,20 +18,15 @@ const Student = (props) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [errorLocation, setErrorLocation] = useState("");
 
-  const requestConfig = {
-    headers: {
-      Authorization: `Bearer ${
-        JSON.parse(localStorage.getItem("coach")).token
-      }`,
-    },
-  };
-
   useEffect(() => {
     const fetchData = async (id) => {
-      const res = await axios.get(
-        `/api/students/${student._id}/workshops`,
-        requestConfig
-      );
+      const res = await axios.get(`/api/students/${student._id}/workshops`, {
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("coach")).token
+          }`,
+        },
+      });
       setStudentWorkshops(res.data);
     };
     try {
@@ -39,7 +34,7 @@ const Student = (props) => {
     } catch (error) {
       setErrorMessage(error.response.data.message);
     }
-  }, []);
+  }, [student]);
 
   const setMoreInfoStatus = () => {
     setIsMoreInfoActive(!isMoreInfoActive);
@@ -189,12 +184,12 @@ const Student = (props) => {
                 return (
                   <li key={i}>
                     {`${workshop.name} - level ${workshop.level} `}
-                    <a
+                    <button
                       className="button is-small is-danger is-inverted"
                       onClick={() => removeWorkshop(workshop._id)}
                     >
                       Remove
-                    </a>
+                    </button>
                   </li>
                 );
               })}

@@ -8,23 +8,20 @@ import Message from "../components/message";
 
 const Workshops = (props) => {
   let [searchParams, setSearchParams] = useSearchParams();
-  let searchbox = searchParams.get("search");
   const [workshops, setWorkshops] = useState([]);
 
   const [errorMessage, setErrorMessage] = useState("");
 
-  const requestConfig = {
-    params: { search: searchbox },
-    headers: {
-      Authorization: `Bearer ${
-        JSON.parse(localStorage.getItem("coach")).token
-      }`,
-    },
-  };
-
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get("api/workshops", requestConfig);
+      const response = await axios.get("api/workshops", {
+        params: { search: searchParams.get("search") },
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("coach")).token
+          }`,
+        },
+      });
       setWorkshops(response.data.workshops);
     };
 
@@ -41,7 +38,14 @@ const Workshops = (props) => {
 
   const refetch = async (data) => {
     try {
-      const res = await axios.get("/api/workshops", requestConfig);
+      const res = await axios.get("/api/workshops", {
+        params: { search: searchParams.get("search") },
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("coach")).token
+          }`,
+        },
+      });
       setWorkshops(res.data.workshops);
     } catch (error) {
       setErrorMessage(error.response.data.message);
@@ -50,7 +54,14 @@ const Workshops = (props) => {
 
   const deleteWorkshop = async (id) => {
     try {
-      const res = await axios.delete(`/api/workshops/${id}`, requestConfig);
+      const res = await axios.delete(`/api/workshops/${id}`, {
+        params: { search: searchParams.get("search") },
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("coach")).token
+          }`,
+        },
+      });
       let _workshops = workshops.filter(
         (workshop) => workshop._id !== res.data.workshop._id
       );
@@ -65,7 +76,7 @@ const Workshops = (props) => {
       <Navbar
         currentPage="workshops"
         redirectPage="students"
-        searchbox={searchbox ? searchbox : ""}
+        searchbox={searchParams.get("search") ? searchParams.get("search") : ""}
         search={search}
         verify={props.verify}
         refetch={refetch}

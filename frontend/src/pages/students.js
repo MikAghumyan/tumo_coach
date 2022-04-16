@@ -8,23 +8,20 @@ import Message from "../components/message";
 
 const Students = (props) => {
   let [searchParams] = useSearchParams();
-  let searchbox = searchParams.get("search");
   const [students, setStudents] = useState([]);
 
   const [errorMessage, setErrorMessage] = useState("");
 
-  const requestConfig = {
-    params: { search: searchbox },
-    headers: {
-      Authorization: `Bearer ${
-        JSON.parse(localStorage.getItem("coach")).token
-      }`,
-    },
-  };
-
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("/api/students", requestConfig);
+      const res = await axios.get("/api/students", {
+        params: { search: searchParams.get("search") },
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("coach")).token
+          }`,
+        },
+      });
       setStudents(res.data.students);
     };
 
@@ -37,7 +34,14 @@ const Students = (props) => {
 
   const deleteStudent = async (id) => {
     try {
-      const res = await axios.delete(`/api/students/${id}`, requestConfig);
+      const res = await axios.delete(`/api/students/${id}`, {
+        params: { search: searchParams.get("search") },
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("coach")).token
+          }`,
+        },
+      });
       let _students = students.filter(
         (student) => student._id !== res.data.student._id
       );
@@ -49,7 +53,14 @@ const Students = (props) => {
 
   const refetch = async (data) => {
     try {
-      const res = await axios.get("/api/students", requestConfig);
+      const res = await axios.get("/api/students", {
+        params: { search: searchParams.get("search") },
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("coach")).token
+          }`,
+        },
+      });
       setStudents(res.data.students);
     } catch (error) {
       setErrorMessage(error.response.data.message);
@@ -61,7 +72,7 @@ const Students = (props) => {
       <Navbar
         currentPage="students"
         redirectPage="workshops"
-        searchbox={searchbox ? searchbox : ""}
+        searchbox={searchParams.get("search") ? searchParams.get("search") : ""}
         verify={props.verify}
         refetch={refetch}
       />
