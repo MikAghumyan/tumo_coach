@@ -130,22 +130,24 @@ module.exports = {
     try {
       const { id } = req.params;
       const { name, level } = req.body;
-
-      const workshop = await Workshop.findOneAndUpdate(
-        { name, level },
-        {
-          $addToSet: { students: id },
-        }
-      ).exec();
+      const workshop = await Workshop.findOne({ name, level });
 
       if (!workshop) {
         res.status(401);
         throw new Error("Invalid Workshop");
       }
 
-      console.log(workshop);
+      const workshopUpdate = await Workshop.updateOne(
+        { name, level },
+        { $addToSet: { students: id } }
+      );
 
-      res.status(200).json({ workshop });
+      if (workshopUpdate.modifiedCount === 1) {
+        res.status(200).json({ workshop });
+      } else {
+        res.status(401);
+        throw new Error("Workshop already added");
+      }
     } catch (error) {
       res.status(401);
       throw new Error(error);

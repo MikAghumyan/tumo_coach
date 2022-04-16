@@ -114,12 +114,18 @@ module.exports = {
         throw new Error("Invalid Student");
       }
 
-      const workshop = await Workshop.findByIdAndUpdate(id, {
-        $addToSet: { students: student._id },
-      });
-      console.log(workshop);
-
-      res.status(200).json({ workshop, student });
+      const workshopUpdate = await Workshop.updateOne(
+        { _id: id },
+        {
+          $addToSet: { students: student._id },
+        }
+      );
+      if (workshopUpdate.modifiedCount === 1) {
+        res.status(200).json({ student });
+      } else {
+        res.status(401);
+        throw new Error("Student already attached");
+      }
     } catch (error) {
       res.status(401);
       throw new Error(error);
