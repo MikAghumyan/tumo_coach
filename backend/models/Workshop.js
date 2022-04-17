@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const WorkshopSchema = new mongoose.Schema({
-  name: String,
+  name: { type: String, required: true },
   description: String,
-  level: Number,
+  level: { type: Number, required: true },
   students: [{ type: mongoose.Schema.Types.ObjectId, ref: "Student" }],
 });
 

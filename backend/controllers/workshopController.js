@@ -8,6 +8,11 @@ module.exports = {
     try {
       const { name, description, level } = req.body;
 
+      if (!name || !level) {
+        res.status(401);
+        throw new Error("Fields are not complete.");
+      }
+
       if (await Workshop.findOne({ name, level })) {
         res.status(401);
         throw new Error("Workshop already exists");

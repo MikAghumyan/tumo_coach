@@ -8,6 +8,11 @@ module.exports = {
     try {
       const { name, surname, email, phoneNumber } = req.body;
 
+      if (!name || !surname || !email || !phoneNumber) {
+        res.status(401);
+        throw new Error("Fields are not complete.");
+      }
+
       if (await Student.findOne({ email })) {
         res.status(401);
         throw new Error("Email already exists");
