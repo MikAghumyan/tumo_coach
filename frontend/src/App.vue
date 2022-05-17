@@ -1,6 +1,9 @@
 <script setup>
+import { ref, onMounted } from "vue";
 import { RouterLink, RouterView } from "vue-router";
 import HelloWorld from "@/components/HelloWorld.vue";
+
+const verified = ref(localStorage.getItem("coach") ? true : false);
 </script>
 
 <template>
@@ -17,8 +20,8 @@ import HelloWorld from "@/components/HelloWorld.vue";
       <HelloWorld msg="You did it!" />
 
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/" />
+        <RouterLink to="/Workshops">Workshops</RouterLink>
       </nav>
     </div>
   </header>
