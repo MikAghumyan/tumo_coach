@@ -69,6 +69,7 @@ export default {
       </div>
       <div style="margin: 16px">
         <button className="submit" type="submit">Submit</button>
+        <a class="redirect" href="/register">Register</a>
       </div>
     </form>
   </main>
@@ -80,14 +81,10 @@ input {
   padding: 1rem;
   border-radius: 0.5rem;
 }
-.submit {
-  padding: 0.8rem;
-  border: 0;
-  border-radius: 0.5rem;
-  color: #ffffff;
-  background-color: #88b04b;
-}
 .warning {
   color: #9b2335;
+}
+.redirect {
+  padding: 0rem 1rem;
 }
 </style>

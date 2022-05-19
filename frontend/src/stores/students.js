@@ -9,10 +9,10 @@ export const useStudentsStore = defineStore({
   }),
   getters: {},
   actions: {
-    async getStudents() {
+    async getStudents(searchParam) {
       try {
         const res = await axios.get("http://localhost:4000/api/students", {
-          params: {},
+          params: { search: searchParam },
           headers: {
             Authorization: `Bearer ${
               JSON.parse(localStorage.getItem("coach")).token
