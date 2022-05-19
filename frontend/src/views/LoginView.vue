@@ -74,17 +74,3 @@ export default {
     </form>
   </main>
 </template>
-
-<style>
-input {
-  margin: 0.5rem 0;
-  padding: 1rem;
-  border-radius: 0.5rem;
-}
-.warning {
-  color: #9b2335;
-}
-.redirect {
-  padding: 0rem 1rem;
-}
-</style>

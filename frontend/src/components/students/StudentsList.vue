@@ -21,7 +21,7 @@ export default {
 <template>
   <main>
     <ul>
-      <table>
+      <table class="table">
         <thead class="green">
           <tr>
             <th>Id</th>

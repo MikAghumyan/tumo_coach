@@ -26,14 +26,3 @@ export default {
   <StudentInfo v-if="$route.params.id" />
   <StudentsList v-else />
 </template>
-
-<style>
-td,
-th {
-  padding: 1rem 2rem;
-}
-thead,
-tr:nth-child(2n) {
-  background-color: #242424;
-}
-</style>
