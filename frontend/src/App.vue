@@ -74,7 +74,7 @@ nav a:first-of-type {
   border: 0;
   border-radius: 0.5rem;
   color: #ffffff;
-  background-color: #88b04b;
+  background-color: hsla(160, 100%, 37%, 1);
 }
 
 @media (min-width: 1024px) {

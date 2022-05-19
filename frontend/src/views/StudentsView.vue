@@ -1,6 +1,8 @@
 <script>
 import { useStudentsStore } from "@/stores/students";
 import Navbar from "../components/Navbar.vue";
+import StudentsList from "../components/students/StudentsList.vue";
+import StudentInfo from "../components/students/StudentInfo.vue";
 
 export default {
   setup() {
@@ -10,7 +12,7 @@ export default {
   mounted() {
     this.studentsStore.getStudents();
   },
-  components: { Navbar },
+  components: { Navbar, StudentsList, StudentInfo },
   methods: {
     redirectStudent(id) {
       console.log(id);
@@ -20,35 +22,9 @@ export default {
 };
 </script>
 <template>
-  <p>{{ $route.params.id }}</p>
   <Navbar currentPage="students" redirectPage="workshops" />
-  <main>
-    <ul>
-      <table>
-        <thead class="green">
-          <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Surname</th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="student in studentsStore.students">
-            <td>{{ student._id.substr(1, 10) }}</td>
-            <td>{{ student.name }}</td>
-            <td>{{ student.surname }}</td>
-            <td>
-              <button v-on:click="redirectStudent(student._id)" class="submit">
-                Info
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </ul>
-  </main>
+  <StudentInfo v-if="$route.params.id" />
+  <StudentsList v-else />
 </template>
 
 <style>

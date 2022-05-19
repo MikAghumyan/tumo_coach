@@ -34,6 +34,15 @@ const router = createRouter({
       redirect: !localStorage.getItem("coach") && "/login",
     },
     {
+      path: "/students/:id",
+      name: "student",
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: StudentsView,
+      redirect: !localStorage.getItem("coach") && "/login",
+    },
+    {
       path: "/students",
       name: "students",
       // route level code-splitting
