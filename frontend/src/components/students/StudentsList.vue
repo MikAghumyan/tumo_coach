@@ -6,8 +6,9 @@ export default {
     const studentsStore = useStudentsStore();
     return { studentsStore };
   },
-  mounted() {
-    this.studentsStore.getStudents();
+  beforeMount() {
+    console.log(this.$route.query);
+    this.studentsStore.getStudents(this.$route.query.search);
   },
   methods: {
     redirectStudent(id) {

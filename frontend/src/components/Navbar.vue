@@ -26,33 +26,6 @@ export default {
 </script>
 
 <template>
-  <!-- <header>
-    <ul>
-      <li>
-        <input v-on:change="onChange" type="text" placeholder="Search.." />
-        {{ " "
-        }}<a
-          v-on:click="
-            currentPage === 'students' &&
-              studentsStore.getStudents(this.searchInput)
-          "
-          className="submit"
-        >
-          Search
-        </a>
-      </li>
-      <li>
-        <a a :href="'/' + redirectPage">{{
-          redirectPage.charAt(0).toUpperCase() + redirectPage.slice(1)
-        }}</a>
-      </li>
-      <li>
-        <a class="active" style="color: var(--color-text)" v-on:click="logout"
-          >Logout</a
-        >
-      </li>
-    </ul>
-  </header> -->
   <nav class="navbar navbar-expand-lg bg-success bg-opacity-10">
     <div class="container-fluid">
       <a class="navbar-brand" href="#"
@@ -81,7 +54,7 @@ export default {
               role="search"
               @submit.prevent="
                 currentPage === 'students' &&
-                  studentsStore.getStudents(this.searchInput)
+                  this.$router.replace(`/students?search=${this.searchInput}`)
               "
             >
               <input
