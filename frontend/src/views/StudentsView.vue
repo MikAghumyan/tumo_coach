@@ -9,9 +9,6 @@ export default {
     const studentsStore = useStudentsStore();
     return { studentsStore };
   },
-  mounted() {
-    this.studentsStore.getStudents();
-  },
   components: { Navbar, StudentsList, StudentInfo },
   methods: {
     redirectStudent(id) {
