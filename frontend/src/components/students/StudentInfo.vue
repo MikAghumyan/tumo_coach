@@ -1,7 +1,13 @@
 <script>
 import axios from "axios";
 
+import { useStudentsStore } from "@/stores/students";
+
 export default {
+  setup(props) {
+    const studentsStore = useStudentsStore();
+    return { studentsStore };
+  },
   data() {
     return { studentDefault: {}, student: {}, errorMessage: "" };
   },
@@ -31,6 +37,14 @@ export default {
   methods: {
     goBack() {
       this.$router.back();
+    },
+    onSubmit() {
+      this.studentsStore.updateStudent(this.student._id, {
+        name: this.student.name,
+        surname: this.student.surname,
+        email: this.student.email,
+        phoneNumber: this.student.phoneNumber,
+      });
     },
   },
   computed: {
@@ -121,25 +135,12 @@ export default {
             class="form-control form-control-sm"
             name="email"
             label="Email"
-            placeholder="vatozashita@gmail.com"
             required
           />
         </div>
       </div>
-      <button
-        type="submit"
-        class="btn btn-primary me-3"
-        :disabled="setButtonActivity"
-      >
-        Save
-      </button>
-      <button
-        type="submit"
-        class="btn btn-primary"
-        :disabled="setButtonActivity"
-      >
-        Reset
-      </button>
+      <button type="submit" class="btn btn-primary me-3">Save</button>
+      <button class="btn btn-primary">Reset</button>
     </form>
   </main>
 </template>

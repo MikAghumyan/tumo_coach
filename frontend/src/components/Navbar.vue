@@ -54,7 +54,7 @@ export default {
               role="search"
               @submit.prevent="
                 currentPage === 'students' &&
-                  this.$router.replace(`/students?search=${this.searchInput}`)
+                  this.$router.push(`/students?search=${this.searchInput}`)
               "
             >
               <input

@@ -53,5 +53,29 @@ export const useStudentsStore = defineStore({
         return error.response.data.message;
       }
     },
+    async updateStudent(id, { name, surname, email, phoneNumber }) {
+      try {
+        const response = await axios.put(
+          `http://localhost:4000/api/students/${id}`,
+          {
+            name,
+            surname,
+            email,
+            phoneNumber,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${
+                JSON.parse(localStorage.getItem("coach")).token
+              }`,
+            },
+          }
+        );
+        if (response.data) {
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 });

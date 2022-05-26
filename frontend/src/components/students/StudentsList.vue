@@ -14,7 +14,7 @@ export default {
   },
   methods: {
     redirectStudent(id) {
-      this.$router.replace("/students/" + id);
+      this.$router.push("/students/" + id);
     },
   },
 };
