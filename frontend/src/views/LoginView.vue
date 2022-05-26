@@ -121,9 +121,9 @@ export default {
                 <div
                   class="alert alert-danger"
                   role="alert"
-                  v-if="this.errorMessage !== ''"
+                  v-if="errorMessage !== ''"
                 >
-                  {{ this.errorMessage }}
+                  {{ errorMessage }}
                 </div>
                 <div class="">
                   <button type="submit" class="btn btn-primary">Login</button>

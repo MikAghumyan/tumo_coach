@@ -68,7 +68,7 @@ export default {
                   <label class="mb-2 text-muted" for="email">Name</label>
                   <input
                     class="form-control"
-                    v-model="this.name"
+                    v-model="name"
                     name="name"
                     label="Name"
                     required
@@ -80,7 +80,7 @@ export default {
                   </div>
                   <input
                     class="form-control"
-                    v-model="this.surname"
+                    v-model="surname"
                     type="text"
                     name="surname"
                     label="Surname"
@@ -93,7 +93,7 @@ export default {
                   </div>
                   <input
                     class="form-control"
-                    v-model="this.email"
+                    v-model="email"
                     type="email"
                     name="email"
                     label="Email"
@@ -108,7 +108,7 @@ export default {
                   </div>
                   <input
                     class="form-control"
-                    v-model="this.phoneNumber"
+                    v-model="phoneNumber"
                     type="tel"
                     name="phoneNumber"
                     label="PhoneNumber"
@@ -118,9 +118,9 @@ export default {
                 <div
                   class="alert alert-danger"
                   role="alert"
-                  v-if="this.errorMessage !== ''"
+                  v-if="errorMessage !== ''"
                 >
-                  {{ this.errorMessage }}
+                  {{ errorMessage }}
                 </div>
                 <div class="">
                   <button type="submit" class="btn btn-primary">Submit</button>

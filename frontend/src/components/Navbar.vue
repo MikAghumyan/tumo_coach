@@ -54,7 +54,7 @@ export default {
               role="search"
               @submit.prevent="
                 currentPage === 'students' &&
-                  this.$router.push(`/students?search=${this.searchInput}`)
+                  $router.push(`/students?search=${searchInput}`)
               "
             >
               <input
@@ -62,7 +62,7 @@ export default {
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
-                v-model="this.searchInput"
+                v-model="searchInput"
                 v-on:change="onChange"
               />
               <button
@@ -70,7 +70,7 @@ export default {
                 type="submit"
                 v-on:click="
                   currentPage === 'students' &&
-                    studentsStore.getStudents(this.searchInput)
+                    studentsStore.getStudents(searchInput)
                 "
               >
                 Search
@@ -83,7 +83,7 @@ export default {
             class="btn btn-primary me-2"
             type="submit"
             v-on:click="
-              currentPage === 'students' && this.$router.push('/students/add')
+              currentPage === 'students' && $router.push('/students/add')
             "
           >
             Add
