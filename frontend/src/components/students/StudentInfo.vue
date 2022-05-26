@@ -9,7 +9,17 @@ export default {
     return { studentsStore };
   },
   data() {
-    return { studentDefault: {}, student: {}, errorMessage: "" };
+    return {
+      studentDefault: {
+        name: "",
+        surname: "",
+        phoneNumber: "",
+        email: "",
+        _id: "",
+      },
+      student: { name: "", surname: "", phoneNumber: "", email: "", _id: "" },
+      errorMessage: "",
+    };
   },
   props: ["studentId"],
   async mounted() {
@@ -26,8 +36,8 @@ export default {
         }
       );
       console.log(res.data.student);
-      this.student = res.data.student;
-      this.studentDefault = res.data.student;
+      Object.assign(this.student, res.data.student);
+      Object.assign(this.studentDefault, res.data.student);
       console.log(this.student);
       console.log(this.studentDefault);
     } catch (err) {
@@ -39,16 +49,11 @@ export default {
       this.$router.back();
     },
     onSubmit() {
-      this.studentsStore.updateStudent(this.student._id, {
-        name: this.student.name,
-        surname: this.student.surname,
-        email: this.student.email,
-        phoneNumber: this.student.phoneNumber,
-      });
+      this.studentsStore.updateStudent(this.student._id, { ...this.student });
     },
   },
   computed: {
-    setButtonActivity() {
+    buttonDisabled() {
       if (
         this.student.name !== this.studentDefault.name ||
         this.student.surname !== this.studentDefault.surname ||
@@ -65,7 +70,7 @@ export default {
 <template>
   <main>
     <form class="mx-auto w-50" @submit.prevent="onSubmit">
-      <p class="warning">{{ this.errorMessage }}</p>
+      <p class="warning">{{ errorMessage }}</p>
       <div class="row py-4">
         <a v-on:click="goBack" class="col-2"
           ><svg
@@ -89,7 +94,7 @@ export default {
         <label class="col-sm-2 col-form-label col-form-label-sm">Name</label>
         <div class="col-sm-10">
           <input
-            v-model="this.student.name"
+            v-model="student.name"
             type="text"
             class="form-control form-control-sm"
             name="name"
@@ -102,7 +107,7 @@ export default {
         <label class="col-sm-2 col-form-label col-form-label-sm">Surname</label>
         <div class="col-sm-10">
           <input
-            v-model="this.student.surname"
+            v-model="student.surname"
             type="text"
             class="form-control form-control-sm"
             name="surname"
@@ -115,7 +120,7 @@ export default {
         <label class="col-sm-2 col-form-label col-form-label-sm">Email</label>
         <div class="col-sm-10">
           <input
-            v-model="this.student.email"
+            v-model="student.email"
             type="email"
             class="form-control form-control-sm"
             name="email"
@@ -130,7 +135,7 @@ export default {
         >
         <div class="col-sm-10">
           <input
-            v-model="this.student.phoneNumber"
+            v-model="student.phoneNumber"
             type="tel"
             class="form-control form-control-sm"
             name="email"
@@ -139,8 +144,14 @@ export default {
           />
         </div>
       </div>
-      <button type="submit" class="btn btn-primary me-3">Save</button>
-      <button class="btn btn-primary">Reset</button>
+      <button
+        type="submit"
+        class="btn btn-primary me-3"
+        :disabled="buttonDisabled"
+      >
+        Save
+      </button>
+      <button class="btn btn-primary" :disabled="buttonDisabled">Reset</button>
     </form>
   </main>
 </template>
