@@ -6,13 +6,14 @@ export default {
     const studentsStore = useStudentsStore();
     return { studentsStore };
   },
-  beforeMount() {
-    console.log(this.$route.query);
-    this.studentsStore.getStudents(this.$route.query.search);
+  data() {
+    return {};
+  },
+  async mounted() {
+    await this.studentsStore.getStudents(this.$route.query.search);
   },
   methods: {
     redirectStudent(id) {
-      console.log(id);
       this.$router.replace("/students/" + id);
     },
   },
@@ -38,7 +39,21 @@ export default {
             <td>{{ student.surname }}</td>
             <td>
               <a v-on:click="redirectStudent(student._id)" class="submit">
-                Info
+                <svg
+                  id="i-info"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 32 32"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="currentcolor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                >
+                  <path d="M16 14 L16 23 M16 8 L16 10" />
+                  <circle cx="16" cy="16" r="14" />
+                </svg>
               </a>
             </td>
           </tr>

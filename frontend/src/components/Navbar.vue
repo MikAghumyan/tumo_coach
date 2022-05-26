@@ -7,7 +7,7 @@ export default {
     return { studentsStore };
   },
   data() {
-    return { searchInput: "" };
+    return { searchInput: this.$route.query.search };
   },
   props: {
     currentPage: { required: true, type: String },
@@ -79,7 +79,15 @@ export default {
           </li>
         </ul>
         <div class="d-flex">
-          <button class="btn btn-primary me-2" type="submit">Add</button>
+          <button
+            class="btn btn-primary me-2"
+            type="submit"
+            v-on:click="
+              currentPage === 'students' && this.$router.push('/students/add')
+            "
+          >
+            Add
+          </button>
           <button class="btn btn-danger" type="submit" v-on:click="logout">
             Logout
           </button>

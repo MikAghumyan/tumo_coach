@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import StudentsView from "../views/StudentsView.vue";
+import AddStudent from "../components/students/AddStudent.vue";
 import WorkshopsView from "../views/WorkshopsView.vue";
 import LoginView from "../views/LoginView.vue";
 import RegisterView from "../views/RegisterView.vue";
@@ -31,6 +32,15 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: WorkshopsView,
+      redirect: !localStorage.getItem("coach") && "/login",
+    },
+    {
+      path: "/students/add",
+      name: "addStudent",
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: AddStudent,
       redirect: !localStorage.getItem("coach") && "/login",
     },
     {
