@@ -48,8 +48,16 @@ export default {
     goBack() {
       this.$router.back();
     },
-    onSubmit() {
-      this.studentsStore.updateStudent(this.student._id, { ...this.student });
+    async onSubmit() {
+      this.errorMessage = await this.studentsStore.updateStudent(
+        this.student._id,
+        {
+          ...this.student,
+        }
+      );
+    },
+    reset() {
+      Object.assign(this.student, this.studentDefault);
     },
   },
   computed: {
@@ -70,7 +78,6 @@ export default {
 <template>
   <main>
     <form class="mx-auto w-50" @submit.prevent="onSubmit">
-      <p class="warning">{{ errorMessage }}</p>
       <div class="row py-4">
         <a v-on:click="goBack" class="col-2"
           ><svg
@@ -144,6 +151,9 @@ export default {
           />
         </div>
       </div>
+      <div class="alert alert-danger" role="alert" v-if="errorMessage !== ''">
+        {{ errorMessage }}
+      </div>
       <button
         type="submit"
         class="btn btn-primary me-3"
@@ -151,7 +161,9 @@ export default {
       >
         Save
       </button>
-      <button class="btn btn-primary" :disabled="buttonDisabled">Reset</button>
+      <button class="btn btn-primary" @click="reset" :disabled="buttonDisabled">
+        Reset
+      </button>
     </form>
   </main>
 </template>

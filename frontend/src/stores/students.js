@@ -74,7 +74,7 @@ export const useStudentsStore = defineStore({
         if (response.data) {
         }
       } catch (error) {
-        console.log(error);
+        return error.response.data.message;
       }
     },
   },

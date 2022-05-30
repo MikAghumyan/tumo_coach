@@ -26,6 +26,7 @@ export default {
         email: this.email,
         phoneNumber: this.phoneNumber,
       });
+      !this.errorMessage && this.$router.push("/students");
     },
   },
 };
