@@ -8,11 +8,20 @@ export default {
   },
   async mounted() {
     await this.workshopsStore.getWorkshops(this.$route.query.search);
-    console.log(this.workshopsStore.workshops[0].id);
+    console.log("mounted");
   },
   redirectWorkshop(id) {
     this.$router.push("/workshop/" + id);
   },
+  // watch: {
+  //   "$route.query.search": {
+  //     handler: async function (search) {
+  //       await this.workshopsStore.getWorkshops(search);
+  //       console.log("mounted");
+  //     },
+  //     deep: true,
+  //   },
+  // },
 };
 </script>
 

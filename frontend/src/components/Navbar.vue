@@ -1,10 +1,12 @@
 <script>
 import { useStudentsStore } from "@/stores/students";
+import { useWorkshopsStore } from "../stores/workshops";
 
 export default {
   setup() {
     const studentsStore = useStudentsStore();
-    return { studentsStore };
+    const workshopsStore = useWorkshopsStore();
+    return { studentsStore, workshopsStore };
   },
   data() {
     return { searchInput: this.$route.query.search };
@@ -20,6 +22,24 @@ export default {
     },
     onChange(e) {
       this.searchInput = e.target.value;
+    },
+    search() {
+      switch (this.currentPage) {
+        case "students":
+          this.studentsStore.getStudents(this.searchInput);
+          break;
+        case "workshops":
+          this.workshopsStore.getWorkshops(this.searchInput);
+          break;
+        default:
+          break;
+      }
+      this.$router.push(`/${this.currentPage}?search=${this.searchInput}`);
+    },
+  },
+  watch: {
+    searchInput(newValue) {
+      newValue === "" && this.search();
     },
   },
 };
@@ -49,14 +69,7 @@ export default {
             >
           </li>
           <li class="nav-item">
-            <form
-              class="d-flex"
-              role="search"
-              @submit.prevent="
-                currentPage === 'students' &&
-                  $router.push(`/students?search=${searchInput}`)
-              "
-            >
+            <form class="d-flex" role="search" @submit.prevent="search">
               <input
                 class="form-control me-2"
                 type="search"
@@ -65,14 +78,7 @@ export default {
                 v-model="searchInput"
                 v-on:change="onChange"
               />
-              <button
-                class="btn btn-outline-success"
-                type="submit"
-                v-on:click="
-                  currentPage === 'students' &&
-                    studentsStore.getStudents(searchInput)
-                "
-              >
+              <button class="btn btn-outline-success" type="submit">
                 Search
               </button>
             </form>
@@ -82,9 +88,7 @@ export default {
           <button
             class="btn btn-primary me-2"
             type="submit"
-            v-on:click="
-              currentPage === 'students' && $router.push('/students/add')
-            "
+            v-on:click="$router.push(`/${currentPage}/add`)"
           >
             Add
           </button>
