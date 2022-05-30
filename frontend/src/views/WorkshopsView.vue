@@ -1,5 +1,20 @@
+<script>
+import Navbar from "../components/Navbar.vue";
+import WorkshopsList from "../components/workshops/workshopsList.vue";
+import WorkshopInfo from "../components/workshops/workshopInfo.vue";
+
+export default {
+  components: { Navbar, WorkshopsList, WorkshopInfo },
+  methods: {
+    redirectStudent(id) {
+      console.log(id);
+      this.$router.push("/workshops/" + id);
+    },
+  },
+};
+</script>
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+  <Navbar currentPage="workshops" redirectPage="students" />
+  <WorkshopInfo v-if="$route.params.id" />
+  <WorkshopsList v-else />
 </template>
