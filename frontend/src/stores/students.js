@@ -77,5 +77,69 @@ export const useStudentsStore = defineStore({
         return error.response.data.message;
       }
     },
+    async getStudentWorkshops(id) {
+      try {
+        const res = await axios.get(
+          `http://localhost:4000/api/students/${id}/workshops`,
+          {
+            headers: {
+              Authorization: `Bearer ${
+                JSON.parse(localStorage.getItem("coach")).token
+              }`,
+            },
+          }
+        );
+        return res.data;
+      } catch (error) {
+        return error.response.data;
+      }
+    },
+    async attachWorkshop(id, name, level) {
+      try {
+        const response = await axios.put(
+          `http://localhost:4000/api/students/${id}/attach`,
+          {
+            name,
+            level,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${
+                JSON.parse(localStorage.getItem("coach")).token
+              }`,
+            },
+          }
+        );
+        if (response.data) {
+          return response.data;
+        }
+      } catch (error) {
+        return error.response.data;
+      }
+    },
+    async detatchWorkshop(studentId, workshopId) {
+      console.log(studentId, workshopId);
+      try {
+        const response = await axios.put(
+          `http://localhost:4000/api/workshops/detach`,
+          {
+            studentId,
+            workshopId,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${
+                JSON.parse(localStorage.getItem("coach")).token
+              }`,
+            },
+          }
+        );
+        if (response.data) {
+          return response.data;
+        }
+      } catch (error) {
+        return error.response.data;
+      }
+    },
   },
 });

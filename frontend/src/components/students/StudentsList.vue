@@ -21,7 +21,7 @@ export default {
 </script>
 
 <template>
-  <main>
+  <section>
     <ul>
       <table class="table">
         <thead class="green">
@@ -60,5 +60,5 @@ export default {
         </tbody>
       </table>
     </ul>
-  </main>
+  </section>
 </template>
