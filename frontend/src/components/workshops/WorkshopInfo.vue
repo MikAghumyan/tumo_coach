@@ -70,7 +70,7 @@ export default {
 </script>
 
 <template>
-  <main>
+  <section>
     <form class="mx-auto w-50" @submit.prevent="onSubmit">
       <div class="row py-4">
         <a v-on:click="goBack" class="col-2"
@@ -158,5 +158,5 @@ export default {
         Reset
       </button>
     </form>
-  </main>
+  </section>
 </template>
