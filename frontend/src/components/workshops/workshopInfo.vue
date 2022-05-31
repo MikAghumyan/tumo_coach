@@ -49,7 +49,7 @@ export default {
         { ...this.workshop }
       );
       if (!this.errorMessage)
-        this.successMessage = "Workshop updated successfully";
+        this.successMessage = "Student updated successfully";
     },
     reset() {
       Object.assign(this.workshop, this.workshopDefault);

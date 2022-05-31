@@ -19,6 +19,7 @@ export default {
       },
       student: { name: "", surname: "", phoneNumber: "", email: "", _id: "" },
       errorMessage: "",
+      successMessage: "",
     };
   },
   props: ["studentId"],
@@ -55,6 +56,8 @@ export default {
           ...this.student,
         }
       );
+      if (!this.errorMessage)
+        this.successMessage = "Workshop updated successfully";
     },
     reset() {
       Object.assign(this.student, this.studentDefault);
@@ -151,7 +154,18 @@ export default {
           />
         </div>
       </div>
-      <div class="alert alert-danger" role="alert" v-if="errorMessage !== ''">
+      <div
+        class="alert alert-success"
+        role="alert"
+        v-if="successMessage !== ''"
+      >
+        {{ successMessage }}
+      </div>
+      <div
+        class="alert alert-danger"
+        role="alert"
+        v-else-if="errorMessage !== ''"
+      >
         {{ errorMessage }}
       </div>
       <button
