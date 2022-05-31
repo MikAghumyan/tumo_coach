@@ -11,7 +11,7 @@ export default {
   },
   components: { Navbar, WorkshopsList, WorkshopInfo },
   methods: {
-    redirectStudent(id) {
+    redirectWorkshop(id) {
       console.log(id);
       this.$router.push("/workshops/" + id);
     },

@@ -10,8 +10,10 @@ export default {
     await this.workshopsStore.getWorkshops(this.$route.query.search);
     console.log("mounted");
   },
-  redirectWorkshop(id) {
-    this.$router.push("/workshop/" + id);
+  methods: {
+    redirectWorkshop(id) {
+      this.$router.push("/workshops/" + id);
+    },
   },
   // watch: {
   //   "$route.query.search": {
